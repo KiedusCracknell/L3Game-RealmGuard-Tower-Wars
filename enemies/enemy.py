@@ -15,6 +15,8 @@ class Enemy:
         self.path = [(107, 15), (111, 171), (1062, 174), (1060, 365), (934, 395), (862, 465), (746, 461), (525, 462), (524, 553), (523, 689)]
         self.path_pos = 0
         self.img = None
+        self.move_count = 0
+        self.move_dis = 0
         
     def draw(self, win):
         """
@@ -42,7 +44,7 @@ class Enemy:
         return False
     
     
-    def move(self, change):
+    def move(self):
         """
         Move the enemy
         :return: None
@@ -53,8 +55,23 @@ class Enemy:
         else:
             x2,y2 = self.path[self.path_pos+1]
             
-        slope = (y2-y1) / (x2-x1)
-        eq = slope*change + y2
+        move_dis = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+        
+        self.move_count += 1
+        dirn = (x2-x1, y2-y1)
+        
+        move_x, move_y = (self.x + dirn, self.y + dirn[0] * self.move_count, self.y + dirn[1] * self.move_count)
+        self.dis += math.sqrt((move_x-x1)**2 + (move_y-y1)**2)
+        
+        #go to next position
+        if self.dis >= move_dis:
+            self.dis = 0
+            self.move_count = 0
+            self.path_pos += 1
+                
+        self.x = move_x
+        self.y = move_y
+        
         
     def hit(self):
         """
