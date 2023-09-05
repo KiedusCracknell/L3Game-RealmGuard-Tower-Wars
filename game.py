@@ -12,7 +12,6 @@ class Game:
         self.money = 100
         self.bg = pygame.image.load(os.path.join("game_assets", "Map", "OLD-map.png"))
         self.bg = pygame.transform.scale(self.bg, (self.width, self.height)) #scales bg to size of window
-        self.clicks = [] #remove this
         
     def run(self):
         run = True
@@ -26,8 +25,7 @@ class Game:
                 pos = pygame.mouse.get_pos()
                 
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.clicks.append(pos)
-                    print(self.clicks)
+                    pass
 
             self.draw()
         
@@ -36,8 +34,6 @@ class Game:
     
     def draw(self):
         self.win.blit(self.bg, (0,0))
-        for p in self.clicks:
-            pygame.draw.circle(self.win, (255,0,0), (p[0], p[1]), 5, 0)
         pygame.display.update()
         
 g = Game()

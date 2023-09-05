@@ -10,7 +10,7 @@ class Enemy:
         self.height = height
         self.animation_count = 0
         self.health = 1
-        self.path = []
+        self.path = [(107, 15), (111, 171), (1062, 174), (1060, 365), (934, 395), (862, 465), (746, 461), (525, 462), (524, 553), (523, 689)]
         self.img = None
         
     def draw(self, win):
