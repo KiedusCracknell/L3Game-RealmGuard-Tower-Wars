@@ -3,9 +3,11 @@ import pygame
 class Enemy:
     imgs = []
     
-    def __init__(self, x, y):
+    def __init__(self, x, y, width, height):
         self.x = x
         self.y = y
+        self.width = width
+        self.height = height
         self.animation_count = 0
         self.health = 1
         self.path = []
@@ -24,14 +26,18 @@ class Enemy:
         win.blit(self.img, (self.x, self.y))
         self.move()
         
-    def collide(self, x, y):
+    def collide(self, X, Y):
         """
         Returns if position hits the enemy
         :param x: int
         :param y: int
         :return: Bool
         """
+        if X <= self.x + self.width and X >= self.x:
+            if Y <= self.y + self.height and Y >= self.y:
+                return True
         return False
+    
     
     def move(self):
         """
