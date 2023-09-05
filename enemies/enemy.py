@@ -9,6 +9,7 @@ class Enemy:
         self.animation_count = 0
         self.health = 1
         self.path = []
+        self.img = None
         
     def draw(self, win):
         """
@@ -16,6 +17,12 @@ class Enemy:
         :param win: surface
         :return: None
         """
+        self.animation_count += 1
+        self.img = self.imgs[self.animation_count]
+        if self.animation_count >= len(self.imgs):
+            self.animation_count = 0
+        win.blit(self.img, (self.x, self.y))
+        self.move()
         
     def collide(self, x, y):
         """
