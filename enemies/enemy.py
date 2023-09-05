@@ -1,4 +1,5 @@
 import pygame
+import math
 
 class Enemy:
     imgs = []
@@ -8,9 +9,11 @@ class Enemy:
         self.y = y
         self.width = width
         self.height = height
+        self.vel = 3
         self.animation_count = 0
         self.health = 1
         self.path = [(107, 15), (111, 171), (1062, 174), (1060, 365), (934, 395), (862, 465), (746, 461), (525, 462), (524, 553), (523, 689)]
+        self.path_pos = 0
         self.img = None
         
     def draw(self, win):
@@ -39,12 +42,19 @@ class Enemy:
         return False
     
     
-    def move(self):
+    def move(self, change):
         """
         Move the enemy
         :return: None
         """
-        pass
+        x1,y1 = self.path[self.path_pos]
+        if self.path_pos >= len(self.path):
+            x2,y2 = (530, 730)
+        else:
+            x2,y2 = self.path[self.path_pos+1]
+            
+        slope = (y2-y1) / (x2-x1)
+        eq = slope*change + y2
         
     def hit(self):
         """
