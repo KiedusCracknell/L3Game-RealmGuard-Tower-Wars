@@ -1,5 +1,6 @@
 import pygame
 import os
+import enemies.slime.Slime
 
 class Game:
     def __init__(self):

@@ -14,21 +14,19 @@ class Enemy:
         self.health = 1
         self.path = [(107, 15), (111, 171), (1062, 174), (1060, 365), (934, 395), (862, 465), (746, 461), (525, 462), (524, 553), (523, 689)]
         self.path_pos = 0
-        self.img = None
+        self.spritesheet_img = None
         self.move_count = 0
         self.move_dis = 0
         
-    def draw(self, win):
+    def draw(self, win, sheet, width, height):
         """
         Draw the enemy with the given images
         :param win: surface
         :return: None
         """
-        self.animation_count += 1
-        self.img = self.imgs[self.animation_count]
-        if self.animation_count >= len(self.imgs):
-            self.animation_count = 0
-        win.blit(self.img, (self.x, self.y))
+        image = pygame.Surface((width, height)).convert_alpha()
+        
+        win.blit(self.spritesheet_img, (self.x, self.y))
         self.move()
         
     def collide(self, X, Y):
