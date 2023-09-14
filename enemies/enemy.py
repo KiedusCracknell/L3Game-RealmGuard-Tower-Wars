@@ -11,6 +11,9 @@ class Enemy:
         self.animation_count = 0
         self.health = 1
         self.path = [(107, 15), (111, 171), (1062, 174), (1060, 365), (934, 395), (862, 465), (746, 461), (525, 462), (524, 553), (523, 689)]
+        self.x = self.path[0][0]
+        self.y = self.path[0][1]
+        self.dis = 0
         self.path_pos = 0
         self.img = None
         self.move_count = 0
@@ -58,7 +61,7 @@ class Enemy:
         self.move_count += 1
         dirn = (x2-x1, y2-y1)
         
-        move_x, move_y = (self.x + dirn, self.y + dirn[0] * self.move_count, self.y + dirn[1] * self.move_count)
+        move_x, move_y = (self.x + dirn[0] * self.move_count, self.y + dirn[1] * self.move_count)
         self.dis += math.sqrt((move_x-x1)**2 + (move_y-y1)**2)
         
         #go to next position
