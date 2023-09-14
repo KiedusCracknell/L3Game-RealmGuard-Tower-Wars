@@ -1,12 +1,13 @@
 import pygame
 import os
+from enemies.slime import Slime
 
 class Game:
     def __init__(self):
         self.width = 1200
         self.height = 700
         self.win = pygame.display.set_mode((self.width, self.height))
-        self.enemies = []
+        self.enemys = [Slime()]
         self.towers = []
         self.lives = 10
         self.money = 100
@@ -34,6 +35,10 @@ class Game:
     
     def draw(self):
         self.win.blit(self.bg, (0,0))
+        
+        #draw enemies
+        for en in self.enemys:
+            en.draw(self.win)
         pygame.display.update()
         
 g = Game()

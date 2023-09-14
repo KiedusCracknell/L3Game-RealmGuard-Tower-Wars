@@ -4,11 +4,9 @@ import math
 class Enemy:
     imgs = []
     
-    def __init__(self, x, y, width, height):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
+    def __init__(self):
+        self.width = 48
+        self.height = 48
         self.vel = 3
         self.animation_count = 0
         self.health = 1
