@@ -25,10 +25,10 @@ class Enemy:
         :param win: surface
         :return: none
         """
-        self.img = self.imgs[self.animation_count//3]
+        self.img = self.imgs[self.animation_count]
         self.animation_count += 1
         
-        if self.animation_count >= len(self.imgs)*3:
+        if self.animation_count >= len(self.imgs):
             self.animation_count = 0
             
         win.blit(self.img, (self.x, self.y))
