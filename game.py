@@ -1,6 +1,8 @@
 import pygame
 import os
 from enemies.slime import Slime
+from enemies.orc import Orc
+from enemies.bee import Bee
 
 
 class Game:
@@ -8,7 +10,7 @@ class Game:
         self.width = 1200
         self.height = 700
         self.win = pygame.display.set_mode((self.width, self.height))
-        self.enemys = [Slime()]
+        self.enemys = [Slime(), Orc(), Bee()]
         self.towers = []
         self.lives = 10
         self.money = 100
