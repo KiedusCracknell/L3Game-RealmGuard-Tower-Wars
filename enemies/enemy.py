@@ -10,7 +10,7 @@ class Enemy:
         self.animation_count = 0
         self.health = 1
         self.vel = 3
-        self.path = [(107, 15), (111, 171), (1062, 174), (1060, 365), (934, 395), (862, 465), (746, 461), (525, 462), (524, 553), (523, 689)]
+        self.path = [(107, 15), (111, 171), (1062, 174), (1060, 365), (934, 395), (862, 465), (746, 461), (525, 462), (524, 553), (523, 689), (523, 720), (-10, 720)]
         self.x = self.path[0][0]
         self.y = self.path[0][1]
         self.img = None
@@ -27,7 +27,6 @@ class Enemy:
         """
         self.img = self.imgs[self.animation_count//3]
         self.animation_count += 1
-        print(self.imgs)
         
         if self.animation_count >= len(self.imgs)*3:
             self.animation_count = 0
@@ -57,7 +56,7 @@ class Enemy:
         """
         x1,y1 = self.path[self.path_pos]
         if self.path_pos + 1 >= len(self.path):
-            x2, y2 = (-100000, -100000)
+            x2, y2 = (-10, 710)
         else:
             x2,y2 = self.path[self.path_pos+1]
             
@@ -75,10 +74,11 @@ class Enemy:
             self.move_count = 0
             self.path_pos += 1
             if self.path_pos >= len(self.path):
-                self.path_pos = 0
+                return False
         
         self.x = move_x
         self.y = move_y
+        return True
     
     def hit(self):
         """

@@ -29,6 +29,16 @@ class Game:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     pass
                 
+            # loop through enemies
+            to_del = []
+            for en in self.enemys:
+                if en.x < -5:
+                    to_del.append(en)
+                    
+            # deltete enemies
+            for d in to_del:
+                self.enemys.remove(d)
+                
             self.draw()
         
         pygame.quit()
