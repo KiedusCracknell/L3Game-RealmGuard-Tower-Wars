@@ -21,7 +21,7 @@ class Game:
         run = True
         clock = pygame.time.Clock()
         while run:
-            pygame.time.delay(200)
+            pygame.time.delay(500)
             clock.tick(60)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

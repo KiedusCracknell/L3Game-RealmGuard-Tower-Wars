@@ -1,9 +1,7 @@
 import pygame
 import math
 
-class Enemy:
-    imgs = []
-    
+class Enemy:    
     def __init__(self):
         self.width = 48
         self.height = 48
@@ -18,6 +16,8 @@ class Enemy:
         self.move_count = 0
         self.move_dis = 0
         self.dis = 0
+        self.imgs = []
+        self.flipped = False
         
     def draw(self, win):
         """
@@ -64,10 +64,18 @@ class Enemy:
             
         self.move_count += 1
         dirn = (x2 - x1, y2 - y1)
+        
+        if dirn[0] < 0 and not(self.flipped):
+            self.flipped = True
+            for x, img in enumerate(self.imgs):
+                self.imgs[x] = pygame.transform.flip(img, True, False)
 
                 
         move_x, move_y = ((self.x + dirn[0] * self.move_count), (self.y + dirn[1] * self.move_count))
         self.dis += (math.sqrt((move_x-x1)**2 + (move_y-y1)**2))
+        
+        self.x = move_x
+        self.y = move_y
         
         #go to next point
         if self.dis >= move_dis:
@@ -77,8 +85,6 @@ class Enemy:
             if self.path_pos >= len(self.path):
                 return False
         
-        self.x = move_x
-        self.y = move_y
         return True
     
     def hit(self):
