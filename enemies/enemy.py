@@ -13,7 +13,6 @@ class Enemy:
         self.y = self.path[0][1]
         self.img = None
         self.path_pos = 0
-        self.move_count = 0
         self.move_dis = 0
         self.dis = 0
         self.imgs = []
@@ -25,10 +24,10 @@ class Enemy:
         :param win: surface
         :return: none
         """
-        self.img = self.imgs[self.animation_count]
+        self.img = self.imgs[(self.animation_count)//10]
         self.animation_count += 1
         
-        if self.animation_count >= len(self.imgs):
+        if ((self.animation_count)//10) >= len(self.imgs):
             self.animation_count = 0
             
         win.blit(self.img, (self.x, self.y))
@@ -60,10 +59,9 @@ class Enemy:
         else:
             x2,y2 = self.path[self.path_pos+1]
             
-        move_dis = math.sqrt((x2-x1)**2 + (y2-y1)**2)
-            
-        self.move_count += 1
         dirn = (x2 - x1, y2 - y1)
+        length = math.sqrt((dirn[0])**2 + (dirn[1])**2)
+        dirn = (dirn[0]/length, dirn[1]/length)
         
         if dirn[0] < 0 and not(self.flipped):
             self.flipped = True
@@ -71,21 +69,28 @@ class Enemy:
                 self.imgs[x] = pygame.transform.flip(img, True, False)
 
                 
-        move_x, move_y = ((self.x + dirn[0] * self.move_count), (self.y + dirn[1] * self.move_count))
-        self.dis += (math.sqrt((move_x-x1)**2 + (move_y-y1)**2))
+        move_x, move_y = ((self.x + dirn[0]), (self.y + dirn[1]))
+        #self.dis += (math.sqrt((move_x-x1)**2 + (move_y-y1)**2))
         
         self.x = move_x
         self.y = move_y
         
         #go to next point
-        if self.dis >= move_dis:
-            self.dis = 0
-            self.move_count = 0
-            self.path_pos += 1
-            if self.path_pos >= len(self.path):
-                return False
+        if dirn[0] >= 0: # Moving right
+            if dirn[1] >= 0: # Moving down
+                if self.x >= x2 and self.y >= y2:
+                    self.path_pos += 1
+            else: # Moving up
+                if self.x >= x2 and self.y <= y2:
+                    self.path_pos += 1
+        else: # Moving left
+            if dirn[1] >= 0: # Moving down
+                if self.x <= x2 and self.y >= y2:
+                    self.path_pos += 1
+            else: # Moving up
+                if self.x <= x2 and self.y <= y2:
+                    self.path_pos += 1
         
-        return True
     
     def hit(self):
         """
