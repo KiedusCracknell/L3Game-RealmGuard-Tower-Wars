@@ -8,7 +8,7 @@ class Enemy:
         self.animation_count = 0
         self.health = 1
         self.vel = 3
-        self.path = [(107, 15), (111, 171), (1062, 174), (1060, 365), (934, 395), (862, 465), (746, 461), (525, 462), (524, 553), (523, 689), (523, 720), (-10, 720)]
+        self.path = [(108, -10), (108, 1), (108, 173), (455, 173), (712, 173), (1062, 173), (1062, 365), (966, 365), (936, 397), (866, 459), (748, 463), (550, 461), (550, 558), (550, 696), (550, 800)]
         self.x = self.path[0][0]
         self.y = self.path[0][1]
         self.img = None
@@ -30,7 +30,7 @@ class Enemy:
         if ((self.animation_count)//10) >= len(self.imgs):
             self.animation_count = 0
             
-        win.blit(self.img, (self.x, self.y))
+        win.blit(self.img, (self.x-self.img.get_width()/2, self.y-self.img.get_height()/2))
         #pygame.draw.rect, (win, (255,0,0), (self.x, self.y, 48, 48))
         
         self.move()
@@ -59,7 +59,7 @@ class Enemy:
         else:
             x2,y2 = self.path[self.path_pos+1]
             
-        dirn = (x2 - x1, y2 - y1)
+        dirn = ((x2 - x1)*2, (y2 - y1)*2)
         length = math.sqrt((dirn[0])**2 + (dirn[1])**2)
         dirn = (dirn[0]/length, dirn[1]/length)
         
