@@ -88,8 +88,8 @@ class Enemy:
                 if self.x <= x2 and self.y >= y2:
                     self.path_pos += 1
             else: # Moving up
-                if self.x <= x2 and self.y <= y2:
-                    self.path_pos += 1
+                if self.x <= x2 and self.y >= y2:
+                    self.path_pos += 1 
         
     
     def hit(self):
