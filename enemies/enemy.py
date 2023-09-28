@@ -1,23 +1,22 @@
 import pygame
 import math
 
-class Enemy:
-    imgs = []
-    
+class Enemy:    
     def __init__(self):
         self.width = 48
         self.height = 48
         self.animation_count = 0
         self.health = 1
         self.vel = 3
-        self.path = [(107, 15), (111, 171), (1062, 174), (1060, 365), (934, 395), (862, 465), (746, 461), (525, 462), (524, 553), (523, 689), (523, 720), (-10, 720)]
+        self.path = [(108, -10), (108, 1), (108, 173), (455, 173), (712, 173), (1062, 173), (1062, 365), (966, 365), (936, 397), (866, 459), (748, 463), (550, 461), (550, 558), (550, 696), (550, 800)]
         self.x = self.path[0][0]
         self.y = self.path[0][1]
         self.img = None
         self.path_pos = 0
-        self.move_count = 0
         self.move_dis = 0
         self.dis = 0
+        self.imgs = []
+        self.flipped = False
         
     def draw(self, win):
         """
@@ -25,13 +24,13 @@ class Enemy:
         :param win: surface
         :return: none
         """
-        self.img = self.imgs[self.animation_count]
+        self.img = self.imgs[(self.animation_count)//10]
         self.animation_count += 1
         
-        if self.animation_count >= len(self.imgs):
+        if ((self.animation_count)//10) >= len(self.imgs):
             self.animation_count = 0
             
-        win.blit(self.img, (self.x, self.y))
+        win.blit(self.img, (self.x-self.img.get_width()/2, self.y-self.img.get_height()/2))
         #pygame.draw.rect, (win, (255,0,0), (self.x, self.y, 48, 48))
         
         self.move()
@@ -60,26 +59,38 @@ class Enemy:
         else:
             x2,y2 = self.path[self.path_pos+1]
             
-        move_dis = math.sqrt((x2-x1)**2 + (y2-y1)**2)
-            
-        self.move_count += 1
-        dirn = (x2 - x1, y2 - y1)
+        dirn = ((x2 - x1)*2, (y2 - y1)*2)
+        length = math.sqrt((dirn[0])**2 + (dirn[1])**2)
+        dirn = (dirn[0]/length, dirn[1]/length)
+        
+        if dirn[0] < 0 and not(self.flipped):
+            self.flipped = True
+            for x, img in enumerate(self.imgs):
+                self.imgs[x] = pygame.transform.flip(img, True, False)
 
                 
-        move_x, move_y = ((self.x + dirn[0] * self.move_count), (self.y + dirn[1] * self.move_count))
-        self.dis += (math.sqrt((move_x-x1)**2 + (move_y-y1)**2))
-        
-        #go to next point
-        if self.dis >= move_dis:
-            self.dis = 0
-            self.move_count = 0
-            self.path_pos += 1
-            if self.path_pos >= len(self.path):
-                return False
+        move_x, move_y = ((self.x + dirn[0]), (self.y + dirn[1]))
+        #self.dis += (math.sqrt((move_x-x1)**2 + (move_y-y1)**2))
         
         self.x = move_x
         self.y = move_y
-        return True
+        
+        #go to next point
+        if dirn[0] >= 0: # Moving right
+            if dirn[1] >= 0: # Moving down
+                if self.x >= x2 and self.y >= y2:
+                    self.path_pos += 1
+            else: # Moving up
+                if self.x >= x2 and self.y <= y2:
+                    self.path_pos += 1
+        else: # Moving left
+            if dirn[1] >= 0: # Moving down
+                if self.x <= x2 and self.y >= y2:
+                    self.path_pos += 1
+            else: # Moving up
+                if self.x <= x2 and self.y >= y2:
+                    self.path_pos += 1 
+        
     
     def hit(self):
         """
