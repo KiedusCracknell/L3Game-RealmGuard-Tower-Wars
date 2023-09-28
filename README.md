@@ -4,8 +4,9 @@
 - Slime!
 - Orc!!
 - Bee!!?
-### 1 tower??
+### 2 tower??
 - Archer???
+- Support :)
 ## For Level 3 Programming Assesment :(
 credit to TechWithTim for tutorial :)
 
