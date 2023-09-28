@@ -1,7 +1,10 @@
 import pygame
 import math
 
-class Enemy:    
+class Enemy:
+    """
+    Abstract class for enemies
+    """
     def __init__(self):
         self.width = 48
         self.height = 48
