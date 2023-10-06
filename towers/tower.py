@@ -14,7 +14,7 @@ class Tower:
         self.level = 1
         self.selected = False
         self.menu = None
-        self.tower_imgs
+        self.tower_imgs = []
         
         
     

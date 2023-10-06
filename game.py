@@ -10,7 +10,7 @@ class Game:
         self.width = 1200
         self.height = 700
         self.win = pygame.display.set_mode((self.width, self.height))
-        self.enemys = [Bee()]
+        self.enemys = [Slime()]
         self.towers = []
         self.lives = 10
         self.money = 100
