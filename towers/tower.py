@@ -24,8 +24,8 @@ class Tower:
         :param win: surface
         :return: None
         """
-        img = self.tower_imgs[self.level - 1]
-        win.blit(img, self.x-img.get_width()//2, self.y-img.get_height()//2)
+        img = self.tower_imgs[0]
+        win.blit(img, (self.x-img.get_width()//2, self.y-img.get_height()//2))
     
     def click(self,X,Y):
         """

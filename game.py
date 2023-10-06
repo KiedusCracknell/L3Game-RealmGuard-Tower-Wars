@@ -3,6 +3,7 @@ import os
 from enemies.slime import Slime
 from enemies.orc import Orc
 from enemies.bee import Bee
+from towers.archerTower import ArcherTowerLong
 
 
 class Game:
@@ -11,7 +12,7 @@ class Game:
         self.height = 700
         self.win = pygame.display.set_mode((self.width, self.height))
         self.enemys = [Slime()]
-        self.towers = []
+        self.towers = [ArcherTowerLong(300,300)]
         self.lives = 10
         self.money = 100
         self.bg = pygame.image.load(os.path.join("game_assets/Map", "OLD-map.png"))
@@ -55,6 +56,9 @@ class Game:
         
         for en in self.enemys:
             en.draw(self.win)
+        
+        for tw in self.towers:
+            tw.draw(self.win)
             
         pygame.display.update()
         
