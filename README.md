@@ -6,8 +6,8 @@
 - Bee!!?
 ### 2 tower??
 - Archer???
-- - Long range!!!!!!!
-- - Short Range!??!?!
+  - Long range!!!!!!!
+  - Short Range!??!?!
 - Support :)
 ## For Level 3 Programming Assesment :(
 credit to TechWithTim for tutorial :)
