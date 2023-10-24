@@ -7,6 +7,8 @@ class Orc(Enemy):
     def __init__(self):
         super().__init__()
         self.imgs = []
+        self.max_health = 3
+        self.health = self.max_health
     
         for x in range(6):
             self.imgs.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load(os.path.join("game_assets/2/", "2_Walk00" + str(x) + ".png")), (64, 64)), True, False))
