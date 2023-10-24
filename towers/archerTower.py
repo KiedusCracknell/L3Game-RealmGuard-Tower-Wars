@@ -13,29 +13,35 @@ class ArcherTowerLong(Tower):
         self.archer_imgs = []
         self.archer_count = 0
         
-        self.tower_imgs.append(pygame.transform.scale(pygame.image.load(os.path.join("game_assets/Towers", "long_range_tower.png")), (64,64)))
+        self.tower_imgs.append(pygame.transform.scale(pygame.image.load(os.path.join("game_assets/Towers", "long_range_tower.png")), (90,180)))
         
         for x in range(6):
-            self.archer_1_img.append(pygame.transform.scale(pygame.image.load(os.path.join("game_assets/Towers/level_1", "a_Attack00" + str(x) + ".png")), (64,64)))
+            self.archer_1_img.append(pygame.transform.scale(pygame.image.load(os.path.join("game_assets/Towers/level_1", "a_Attack00" + str(x) + ".png")), (72,72)))
         for x in range(6):
-            self.archer_2_img.append(pygame.transform.scale(pygame.image.load(os.path.join("game_assets/Towers/level_2", "a_Attack00" + str(x) + ".png")), (64,64)))
+            self.archer_2_img.append(pygame.transform.scale(pygame.image.load(os.path.join("game_assets/Towers/level_2", "a_Attack00" + str(x) + ".png")), (72,72)))
         for x in range(6):
-            self.archer_3_img.append(pygame.transform.scale(pygame.image.load(os.path.join("game_assets/Towers/level_3", "a_Attack00" + str(x) + ".png")), (64,64)))
+            self.archer_3_img.append(pygame.transform.scale(pygame.image.load(os.path.join("game_assets/Towers/level_3", "a_Attack00" + str(x) + ".png")), (72,72)))
         
     
     def draw(self, win):
         super().draw(win)
+        
+        # self.width = self.tower_imgs[0].get_width()
+        # self.height = self.tower_imgs[0].get_height()
+        
         if self.level == 1:
             self.archer_imgs = self.archer_1_img
         elif self.level == 2:
             self.archer_imgs = self.archer_2_img
         elif self.level == 3:
             self.archer_imgs = self.archer_3_img
-        if self.archer_count >= len(self.archer_imgs)*3:
+            
+        if self.archer_count >= len(self.archer_imgs)*7:
             self.archer_count = 0
         
-        archer = self.archer_imgs[self.archer_count//3]
-        win.blit(archer, ((self.x + self.width/2) - (archer.get_width()/2), (self.y - archer.get_height())))
+        archer = self.archer_imgs[self.archer_count//7]
+        win.blit(archer, ((self.x + self.width/2) - 35, (self.y - archer.get_height() + 30)))
+        self.archer_count += 1
         
     def attack(self, enemies):
         """
