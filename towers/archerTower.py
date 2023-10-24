@@ -15,6 +15,7 @@ class ArcherTowerLong(Tower):
         self.archer_count = 0
         self.range = 200
         self.inRange = False
+        self.right = False
         
         self.tower_imgs.append(pygame.transform.scale(pygame.image.load(os.path.join("game_assets/Towers", "long_range_tower.png")), (90,180)))
         
@@ -27,6 +28,11 @@ class ArcherTowerLong(Tower):
         
     
     def draw(self, win):
+        # draw range circle
+        surface = pygame.Surface((self.range * 4, self.range * 4), pygame.SRCALPHA, 32)
+        pygame.draw.circle(surface, (128,128,128, 100), (self.range, self.range), self.range, 0)
+        
+        win.blit(surface, (self.x-self.range, self.y-self.range))
         super().draw(win)
         
         # self.width = self.tower_imgs[0].get_width()
@@ -38,7 +44,6 @@ class ArcherTowerLong(Tower):
             self.archer_imgs = self.archer_2_img
         elif self.level == 3:
             self.archer_imgs = self.archer_3_img
-            
         
         if self.inRange:
             self.archer_count += 1
@@ -51,7 +56,7 @@ class ArcherTowerLong(Tower):
         archer = self.archer_imgs[self.archer_count//7]
         win.blit(archer, ((self.x + self.width/2) - 35, (self.y - archer.get_height() + 30)))
         
-        #
+
         
     def change_range(self, r):
         """
@@ -77,6 +82,20 @@ class ArcherTowerLong(Tower):
           if dis < self.range:
               self.inRange = True
               enemy_closest.append(enemy)
+        
+        enemy_closest.sort(key=lambda x: x.x)
+        if len(enemy_closest) > 0:
+            first_enemy = enemy_closest[0]
+        
+            if first_enemy.x > self.x and not(self.right):
+                self.right = True
+                for x, img in enumerate(self.archer_imgs):
+                    self.archer_imgs[x] = pygame.transform.flip(img, True, False)
+            elif self.right and first_enemy.x < self.x:
+                self.right = False
+                for x, img in enumerate(self.archer_imgs):
+                    self.archer_imgs[x] = pygame.transform.flip(img, True, False)
+            
         
             
     
