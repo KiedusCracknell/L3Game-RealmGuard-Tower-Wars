@@ -4,6 +4,8 @@ from enemies.slime import Slime
 from enemies.orc import Orc
 from enemies.bee import Bee
 from towers.archerTower import ArcherTowerLong
+import time
+import random
 
 
 class Game:
@@ -18,13 +20,17 @@ class Game:
         self.bg = pygame.image.load(os.path.join("game_assets/Map", "OLD-map.png"))
         self.bg = pygame.transform.scale(self.bg, (self.width, self.height))
         self.clicks = []
+        self.timer = time.time()
         
     def run(self):
         run = True
         clock = pygame.time.Clock()
         while run:
+            if time.time() - self.timer > 2:
+                self.timer = time.time()
+                self.enemys.append(random.choice([Slime(), Orc(), Bee()]))
             #pygame.time.delay(500) REMOVE
-            clock.tick(30) #fps
+            clock.tick(200) #fps
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False #script stops if pygame window is closed
