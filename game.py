@@ -12,7 +12,7 @@ class Game:
         self.height = 700
         self.win = pygame.display.set_mode((self.width, self.height))
         self.enemys = [Slime()]
-        self.towers = [ArcherTowerLong(300,300)]
+        self.towers = [ArcherTowerLong(300,200)]
         self.lives = 10
         self.money = 100
         self.bg = pygame.image.load(os.path.join("game_assets/Map", "OLD-map.png"))
@@ -44,6 +44,10 @@ class Game:
             # deltete enemies
             for d in to_del:
                 self.enemys.remove(d) #removes enemies that are in to_del
+            
+            # loop through towers to find targets etc.
+            for tw in self.towers:
+                tw.attack(self.enemys)
                 
             self.draw()
         
