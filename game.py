@@ -11,7 +11,7 @@ class Game:
         self.width = 1200
         self.height = 700
         self.win = pygame.display.set_mode((self.width, self.height))
-        self.enemys = [Slime()]
+        self.enemys = [Bee()]
         self.towers = [ArcherTowerLong(300,200)]
         self.lives = 10
         self.money = 100
@@ -58,12 +58,12 @@ class Game:
         
         # draw enemies 
         
-        for en in self.enemys:
-            en.draw(self.win)
-        
         for tw in self.towers:
             tw.draw(self.win)
             
+        for en in self.enemys:
+            en.draw(self.win)
+        
         pygame.display.update()
         
 g = Game()
