@@ -1,14 +1,17 @@
 import pygame
 import math
 
-class Enemy:    
+class Enemy:
+    """
+    Abstract class for enemies
+    """
     def __init__(self):
         self.width = 48
         self.height = 48
         self.animation_count = 0
         self.health = 1
         self.vel = 3
-        self.path = [(108, -10), (108, 1), (108, 173), (455, 173), (712, 173), (1062, 173), (1062, 365), (966, 365), (936, 397), (866, 459), (748, 463), (550, 461), (550, 558), (550, 696), (550, 800)]
+        self.path = [(108, -10), (108, 1), (108, 173), (455, 173), (712, 173), (1062, 173), (1062, 365), (966, 365), (936, 397), (866, 459), (748, 463), (530, 461), (530, 558), (530, 696), (530, 800)]
         self.x = self.path[0][0]
         self.y = self.path[0][1]
         self.img = None
