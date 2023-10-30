@@ -13,8 +13,8 @@ class Game:
         self.width = 1200
         self.height = 700
         self.win = pygame.display.set_mode((self.width, self.height))
-        self.enemys = [Bee()]
-        self.towers = [ArcherTowerLong(300,200)]
+        self.enemys = []
+        self.towers = [ArcherTowerLong(300,200),ArcherTowerLong(700,600)]
         self.lives = 10
         self.money = 100
         self.bg = pygame.image.load(os.path.join("game_assets/Map", "OLD-map.png"))
@@ -26,7 +26,7 @@ class Game:
         run = True
         clock = pygame.time.Clock()
         while run:
-            if time.time() - self.timer > 2:
+            if time.time() - self.timer > random.randrange(1,5)/2:
                 self.timer = time.time()
                 self.enemys.append(random.choice([Slime(), Orc(), Bee()]))
             #pygame.time.delay(500) REMOVE

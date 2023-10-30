@@ -18,6 +18,7 @@ class ArcherTowerLong(Tower):
         self.inRange = False
         self.right = False
         self.timer = time.time()
+        self.damage = 1
         
         self.tower_imgs.append(pygame.transform.scale(pygame.image.load(os.path.join("game_assets/Towers", "long_range_tower.png")), (90,180)))
         
