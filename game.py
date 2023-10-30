@@ -3,8 +3,7 @@ import os
 from enemies.slime import Slime
 from enemies.orc import Orc
 from enemies.bee import Bee
-from towers.archerTower import ArcherTowerLong
-from towers.archerTower import ArcherTowerShort
+from towers.archerTower import ArcherTowerLong, ArcherTowerShort
 import time
 import random
 
@@ -15,7 +14,7 @@ class Game:
         self.height = 700
         self.win = pygame.display.set_mode((self.width, self.height))
         self.enemys = []
-        self.towers = [ArcherTowerLong(300,200),ArcherTowerShort(700,600)]
+        self.towers = [ArcherTowerLong(300,200),ArcherTowerShort(700,500)]
         self.lives = 10
         self.money = 100
         self.bg = pygame.image.load(os.path.join("game_assets/Map", "OLD-map.png"))

@@ -11,7 +11,7 @@ class Orc(Enemy):
     def __init__(self):
         super().__init__()
         self.imgs = imgs[:]
-        self.max_health = 3
+        self.max_health = 4
         self.health = self.max_health
     
         

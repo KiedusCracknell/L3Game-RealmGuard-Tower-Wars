@@ -109,13 +109,13 @@ class Enemy:
                     self.path_pos += 1 
         
     
-    def hit(self):
+    def hit(self, damage):
         """
         decreases enemy health by 1 each call and returns true when enemy health is less than or equal to 0
         :return: bool
         
         """
-        self.health -= 1
+        self.health -= damage
         if self.health <= 0:
             return True
         return False

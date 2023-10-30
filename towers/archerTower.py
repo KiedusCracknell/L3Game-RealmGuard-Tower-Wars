@@ -36,7 +36,7 @@ class ArcherTowerLong(Tower):
         self.archer_3_img = archer_3_img[:]
         self.archer_imgs = []
         self.archer_count = 0
-        self.range = 200
+        self.range = 250
         self.inRange = False
         self.right = False
         self.timer = time.time()
@@ -104,7 +104,7 @@ class ArcherTowerLong(Tower):
             first_enemy = enemy_closest[0]
             if time.time() - self.timer >= 0.5:
                 self.timer = time.time()
-                if first_enemy.hit() == True:
+                if first_enemy.hit(self.damage) == True:
                     enemies.remove(first_enemy)
             
             if first_enemy.x > self.x and not(self.right):
@@ -120,4 +120,15 @@ class ArcherTowerLong(Tower):
 class ArcherTowerShort(ArcherTowerLong):
     def __init__(self, x, y):
         super().__init__(x, y)
+        
+        self.archer_1_img = archer_1_img[:]
+        self.archer_2_img = archer_2_img[:]
+        self.archer_3_img = archer_3_img[:]
         self.tower_imgs = tower_imgs_2[:]
+        self.archer_imgs = []
+        self.archer_count = 0
+        self.range = 150
+        self.inRange = False
+        self.right = False
+        self.timer = time.time()
+        self.damage = 2
