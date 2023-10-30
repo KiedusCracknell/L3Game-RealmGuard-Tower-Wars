@@ -7,6 +7,8 @@ from towers.archerTower import ArcherTowerLong, ArcherTowerShort
 import time
 import random
 
+pygame.font.init()
+
 live_img = pygame.image.load(os.path.join("game_assets/icons", "heart.png"))
 
 
@@ -23,6 +25,8 @@ class Game:
         self.bg = pygame.transform.scale(self.bg, (self.width, self.height))
         self.clicks = []
         self.timer = time.time()
+        self.life_font = pygame.font.SysFont(None, 55)
+        
         
     def run(self):
         run = True
@@ -78,12 +82,18 @@ class Game:
             en.draw(self.win)
         
         #draw lives
-        life = pygame.transform.scale(live_img, (32,32))
+        text = self.life_font.render(str(self.lives), 1, (255,255,255))
+        
+        life = pygame.transform.scale(live_img, (45,45))
         start_x = self.width - life.get_width() - 10
-        for x in range(self.lives):
-            self.win.blit(life, (start_x - life.get_width()*x + 5, 10))
+        
+        self.win.blit(text, (start_x - text.get_width() - 10, 15))
+        self.win.blit(life, (start_x, 10))
         
         pygame.display.update()
+        
+    def draw_menu(self):
+        pass
         
 g = Game()
 g.run()
