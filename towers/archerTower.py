@@ -2,6 +2,7 @@ import pygame
 from towers.tower import Tower
 import os
 import math
+import time
 
 class ArcherTowerLong(Tower):
     def __init__(self,x,y):
@@ -16,6 +17,8 @@ class ArcherTowerLong(Tower):
         self.range = 200
         self.inRange = False
         self.right = False
+        self.timer = time.time()
+        self.damage = 1
         
         self.tower_imgs.append(pygame.transform.scale(pygame.image.load(os.path.join("game_assets/Towers", "long_range_tower.png")), (90,180)))
         
@@ -50,10 +53,10 @@ class ArcherTowerLong(Tower):
         else:
              self.archer_count = 0
 
-        if self.archer_count >= len(self.archer_imgs)*7:
+        if self.archer_count >= len(self.archer_imgs)*3:
             self.archer_count = 0
 
-        archer = self.archer_imgs[self.archer_count//7]
+        archer = self.archer_imgs[self.archer_count//3]
         win.blit(archer, ((self.x + self.width/2) - 35, (self.y - archer.get_height() + 30)))
         
 
@@ -86,7 +89,11 @@ class ArcherTowerLong(Tower):
         enemy_closest.sort(key=lambda x: x.x)
         if len(enemy_closest) > 0:
             first_enemy = enemy_closest[0]
-        
+            if time.time() - self.timer >= 0.5:
+                self.timer = time.time()
+                if first_enemy.hit() == True:
+                    enemies.remove(first_enemy)
+            
             if first_enemy.x > self.x and not(self.right):
                 self.right = True
                 for x, img in enumerate(self.archer_imgs):
@@ -97,6 +104,5 @@ class ArcherTowerLong(Tower):
                     self.archer_imgs[x] = pygame.transform.flip(img, True, False)
             
         
-            
-    
-    
+class ArcherTowerShort(ArcherTowerLong):
+    pass

@@ -4,6 +4,8 @@ from enemies.slime import Slime
 from enemies.orc import Orc
 from enemies.bee import Bee
 from towers.archerTower import ArcherTowerLong
+import time
+import random
 
 
 class Game:
@@ -11,20 +13,24 @@ class Game:
         self.width = 1200
         self.height = 700
         self.win = pygame.display.set_mode((self.width, self.height))
-        self.enemys = [Slime()]
-        self.towers = [ArcherTowerLong(300,200)]
+        self.enemys = []
+        self.towers = [ArcherTowerLong(300,200),ArcherTowerLong(700,600)]
         self.lives = 10
         self.money = 100
         self.bg = pygame.image.load(os.path.join("game_assets/Map", "OLD-map.png"))
         self.bg = pygame.transform.scale(self.bg, (self.width, self.height))
         self.clicks = []
+        self.timer = time.time()
         
     def run(self):
         run = True
         clock = pygame.time.Clock()
         while run:
+            if time.time() - self.timer > random.randrange(1,5)/2:
+                self.timer = time.time()
+                self.enemys.append(random.choice([Slime(), Orc(), Bee()]))
             #pygame.time.delay(500) REMOVE
-            clock.tick(30) #fps
+            clock.tick(200) #fps
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False #script stops if pygame window is closed
@@ -58,12 +64,12 @@ class Game:
         
         # draw enemies 
         
-        for en in self.enemys:
-            en.draw(self.win)
-        
         for tw in self.towers:
             tw.draw(self.win)
             
+        for en in self.enemys:
+            en.draw(self.win)
+        
         pygame.display.update()
         
 g = Game()

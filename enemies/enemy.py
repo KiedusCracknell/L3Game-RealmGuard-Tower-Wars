@@ -20,6 +20,7 @@ class Enemy:
         self.dis = 0
         self.imgs = []
         self.flipped = False
+        self.mac_health = 0
         
     def draw(self, win):
         """
@@ -35,9 +36,22 @@ class Enemy:
             
         win.blit(self.img, (self.x-self.img.get_width()/2, self.y-self.img.get_height()/2))
         #pygame.draw.rect, (win, (255,0,0), (self.x, self.y, 48, 48))
-        
+        self.draw_health_bar(win)
         self.move()
         
+    def draw_health_bar(self, win):
+        """
+        draw health bar for each enemy
+        :param win: surface
+        :return: None
+        """
+        
+        length = 50
+        move_by = round(length / self.max_health)
+        health_bar = move_by * self.health
+        
+        pygame.draw.rect(win, (255,0,0), (self.x-length/2, self.y-30, length, 10), 0)
+        pygame.draw.rect(win, (0,255,0), (self.x-length/2, self.y-30, health_bar, 10), 0)
         
     def collide(self, X, Y):
         """
@@ -104,6 +118,7 @@ class Enemy:
         self.health -= 1
         if self.health <= 0:
             return True
+        return False
         
     
         
