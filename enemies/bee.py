@@ -11,5 +11,5 @@ class Bee(Enemy):
     def __init__(self):
         super().__init__()
         self.imgs = imgs[:]
-        self.max_health = 7
+        self.max_health = 8
         self.health = self.max_health

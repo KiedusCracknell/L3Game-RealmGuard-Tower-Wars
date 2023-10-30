@@ -47,7 +47,7 @@ class Enemy:
         """
         
         length = 50
-        move_by = round(length / self.max_health)
+        move_by = (length / self.max_health)
         health_bar = move_by * self.health
         
         pygame.draw.rect(win, (255,0,0), (self.x-length/2, self.y-30, length, 10), 0)

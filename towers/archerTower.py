@@ -39,7 +39,6 @@ class ArcherTowerLong(Tower):
         self.range = 250
         self.inRange = False
         self.right = False
-        self.timer = time.time()
         self.damage = 1
         
     
@@ -66,10 +65,10 @@ class ArcherTowerLong(Tower):
         else:
              self.archer_count = 0
 
-        if self.archer_count >= len(self.archer_imgs)*3:
+        if self.archer_count >= len(self.archer_imgs)*10:
             self.archer_count = 0
 
-        archer = self.archer_imgs[self.archer_count//3]
+        archer = self.archer_imgs[self.archer_count//10 - 1]
         win.blit(archer, ((self.x + self.width/2) - 35, (self.y - archer.get_height() + 35)))
         
 
@@ -102,8 +101,7 @@ class ArcherTowerLong(Tower):
         enemy_closest.sort(key=lambda x: x.x)
         if len(enemy_closest) > 0:
             first_enemy = enemy_closest[0]
-            if time.time() - self.timer >= 0.5:
-                self.timer = time.time()
+            if self.archer_count == 3:
                 if first_enemy.hit(self.damage) == True:
                     enemies.remove(first_enemy)
             
@@ -130,5 +128,4 @@ class ArcherTowerShort(ArcherTowerLong):
         self.range = 150
         self.inRange = False
         self.right = False
-        self.timer = time.time()
         self.damage = 2
