@@ -7,6 +7,8 @@ from towers.archerTower import ArcherTowerLong, ArcherTowerShort
 import time
 import random
 
+live_img = pygame.image.load(os.path.join("game_assets/icons", "heart.png"))
+
 
 class Game:
     def __init__(self):
@@ -49,11 +51,16 @@ class Game:
                     
             # deltete enemies
             for d in to_del:
+                self.lives -= 1 #removes a life when enemy makes it offscreen
                 self.enemys.remove(d) #removes enemies that are in to_del
             
             # loop through towers to find targets etc.
             for tw in self.towers:
                 tw.attack(self.enemys)
+                
+            if self.lives <= 0:
+                print("you lose")
+                run = False
                 
             self.draw()
         
@@ -62,13 +69,19 @@ class Game:
     def draw(self):
         self.win.blit(self.bg, (0, 0)) # draws pygame window
         
-        # draw enemies 
-        
+        # draw towers 
         for tw in self.towers:
             tw.draw(self.win)
             
+        #draw enemies    
         for en in self.enemys:
             en.draw(self.win)
+        
+        #draw lives
+        life = pygame.transform.scale(live_img, (32,32))
+        start_x = self.width - life.get_width() - 10
+        for x in range(self.lives):
+            self.win.blit(life, (start_x - life.get_width()*x + 5, 10))
         
         pygame.display.update()
         
