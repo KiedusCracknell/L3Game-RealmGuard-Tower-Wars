@@ -104,6 +104,5 @@ class ArcherTowerLong(Tower):
                     self.archer_imgs[x] = pygame.transform.flip(img, True, False)
             
         
-            
-    
-    
+class ArcherTowerShort(ArcherTowerLong):
+    pass
