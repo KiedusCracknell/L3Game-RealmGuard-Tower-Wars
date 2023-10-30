@@ -4,14 +4,36 @@ import os
 import math
 import time
 
+#loads long range tower images
+tower_imgs_1 = []
+tower_imgs_1.append(pygame.transform.scale(pygame.image.load(os.path.join("game_assets/Towers", "long_range_tower.png")), (90,180)))
+
+#loads short range tower images
+tower_imgs_2 = []
+tower_imgs_2.append(pygame.transform.scale(pygame.image.load(os.path.join("game_assets/Towers", "short_range_tower.png")), (90,180)))
+
+
+#loads archer images
+archer_1_img = []
+archer_2_img = []
+archer_3_img = []
+
+for x in range(6):
+    archer_1_img.append(pygame.transform.scale(pygame.image.load(os.path.join("game_assets/Towers/level_1", "a_Attack00" + str(x) + ".png")), (72,72)))
+for x in range(6):
+    archer_2_img.append(pygame.transform.scale(pygame.image.load(os.path.join("game_assets/Towers/level_2", "a_Attack00" + str(x) + ".png")), (72,72)))
+for x in range(6):
+    archer_3_img.append(pygame.transform.scale(pygame.image.load(os.path.join("game_assets/Towers/level_3", "a_Attack00" + str(x) + ".png")), (72,72)))
+
+
 class ArcherTowerLong(Tower):
     def __init__(self,x,y):
         super().__init__(x,y)
         
-        self.tower_imgs = []
-        self.archer_1_img = []
-        self.archer_2_img = []
-        self.archer_3_img = []
+        self.tower_imgs = tower_imgs_1[:]
+        self.archer_1_img = archer_1_img[:]
+        self.archer_2_img = archer_2_img[:]
+        self.archer_3_img = archer_3_img[:]
         self.archer_imgs = []
         self.archer_count = 0
         self.range = 200
@@ -19,15 +41,6 @@ class ArcherTowerLong(Tower):
         self.right = False
         self.timer = time.time()
         self.damage = 1
-        
-        self.tower_imgs.append(pygame.transform.scale(pygame.image.load(os.path.join("game_assets/Towers", "long_range_tower.png")), (90,180)))
-        
-        for x in range(6):
-            self.archer_1_img.append(pygame.transform.scale(pygame.image.load(os.path.join("game_assets/Towers/level_1", "a_Attack00" + str(x) + ".png")), (72,72)))
-        for x in range(6):
-            self.archer_2_img.append(pygame.transform.scale(pygame.image.load(os.path.join("game_assets/Towers/level_2", "a_Attack00" + str(x) + ".png")), (72,72)))
-        for x in range(6):
-            self.archer_3_img.append(pygame.transform.scale(pygame.image.load(os.path.join("game_assets/Towers/level_3", "a_Attack00" + str(x) + ".png")), (72,72)))
         
     
     def draw(self, win):
@@ -57,7 +70,7 @@ class ArcherTowerLong(Tower):
             self.archer_count = 0
 
         archer = self.archer_imgs[self.archer_count//3]
-        win.blit(archer, ((self.x + self.width/2) - 35, (self.y - archer.get_height() + 30)))
+        win.blit(archer, ((self.x + self.width/2) - 35, (self.y - archer.get_height() + 35)))
         
 
         
@@ -105,4 +118,6 @@ class ArcherTowerLong(Tower):
             
         
 class ArcherTowerShort(ArcherTowerLong):
-    pass
+    def __init__(self, x, y):
+        super().__init__(x, y)
+        self.tower_imgs = tower_imgs_2[:]
