@@ -32,12 +32,26 @@ class RangeTower(Tower):
         for tower in towers:
             x = tower.x
             y = tower.y
+            w = tower.width
+            h = tower.height
 
-            dis = math.sqrt((self.x - x)**2 + (self.y - y)**2)
+            r = self.range
+            range_center = [self.x+self.width/2, self.y+self.height/2]
+            #vertices of the outer bounding box of tower plus the range of the support
+            rect_x = [(x-r), (x+w+r), (x-r), (x+w+r)]
+            rect_y = [(y-r), (y-r), (y+h+r), (y+h+r)]
+
+            min_x = min(rect_x[0], rect_x[1], rect_x[2], rect_x[3])
+            max_x = max(rect_x[0], rect_x[1], rect_x[2], rect_x[3])
+            min_y = min(rect_y[0], rect_y[1], rect_y[2], rect_y[3])
+            max_y = max(rect_y[0], rect_y[1], rect_y[2], rect_y[3])
             
-            if dis <= self.range + tower.height / 2:
+            #print("X=",x,"Y=",y,"w=",w,"h=",h,"r=",r,"rangecenter=",range_center, "mx=",min_x, "mxx=",max_x, "my=",min_y, "myy=", max_y)
+            
+            if range_center[0] >= min_x and range_center[0] <= max_x and range_center[1] >= min_y and range_center[1] <= max_y:
                 effected.append(tower)
-                
+                #print("done")
+            
         for tower in effected:
             tower.range = round(tower.original_range + tower.original_range * self.effect[self.level-1])
 
@@ -62,13 +76,24 @@ class DamageTower(RangeTower):
         for tower in towers:
             x = tower.x
             y = tower.y
+            w = tower.width
+            h = tower.height
+
+            r = self.range
+            range_center = [self.x+self.width/2, self.y+self.height/2]
+            #vertices of the outer bounding box of tower plus the range of the support
+            rect_x = [(x-r), (x+w+r), (x-r), (x+w+r)]
+            rect_y = [(y-r), (y-r), (y+h+r), (y+h+r)]
+
+            min_x = min(rect_x[0], rect_x[1], rect_x[2], rect_x[3])
+            max_x = max(rect_x[0], rect_x[1], rect_x[2], rect_x[3])
+            min_y = min(rect_y[0], rect_y[1], rect_y[2], rect_y[3])
+            max_y = max(rect_y[0], rect_y[1], rect_y[2], rect_y[3])
             
+            #print("X=",x,"Y=",y,"w=",w,"h=",h,"r=",r,"rangecenter=",range_center, "mx=",min_x, "mxx=",max_x, "my=",min_y, "myy=", max_y)
             
-            
-            dis = math.sqrt((self.x-x)**2 + (self.y-y)**2)
-            
-            if dis <= self.range  + tower.height / 2:
+            if range_center[0] >= min_x and range_center[0] <= max_x and range_center[1] >= min_y and range_center[1] <= max_y:
                 effected.append(tower)
-                
+                #print("done")
         for tower in effected:
-            tower.damage += round(tower.damage * self.effect[self.level-1])
+            tower.damage = round(tower.original_damage + tower.original_damage * self.effect[self.level-1])

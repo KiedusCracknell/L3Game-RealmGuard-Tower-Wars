@@ -20,7 +20,7 @@ class Game:
         self.win = pygame.display.set_mode((self.width, self.height))
         self.enemys = []
         self.attack_towers = [ArcherTowerLong(300,200), ArcherTowerShort(700,500)]
-        self.support_towers = [RangeTower(150, 210), DamageTower(800, 500)]
+        self.support_towers = [RangeTower(300, 370), DamageTower(620, 500)]
         self.lives = 10
         self.money = 100
         self.bg = pygame.image.load(os.path.join("game_assets/Map", "OLD-map.png"))
@@ -66,7 +66,7 @@ class Game:
                 
             # loop through support towers to find targets etc.
             for tw in self.support_towers:
-                tw.support(self.attack_towers)   
+                tw.support(self.attack_towers)
                 
             if self.lives <= 0:
                 print("you lose")
