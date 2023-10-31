@@ -17,7 +17,7 @@ class RangeTower(Tower):
         self.effect = [0.2,0.4]
         
     def draw(self,win):
-        super().draw_radius(win,self.radius)
+        super().draw_radius(win,self.radius,128,255,128)
         super().draw(win)
         
     def support(self,towers):

@@ -43,7 +43,7 @@ class ArcherTowerLong(Tower):
         
     
     def draw(self, win):
-        super().draw_radius(win, self.range)
+        super().draw_radius(win, self.range,128,128,128)
         super().draw(win)
         
         # self.width = self.tower_imgs[0].get_width()
