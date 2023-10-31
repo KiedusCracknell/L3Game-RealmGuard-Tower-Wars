@@ -37,9 +37,13 @@ class ArcherTowerLong(Tower):
         self.archer_imgs = []
         self.archer_count = 0
         self.range = 250
+        self.original_range = self.range
         self.inRange = False
         self.right = False
         self.damage = 1
+        self.original_damage = self.damage
+        self.width = self.tower_imgs[0].get_width()
+        self.height = self.tower_imgs[0].get_height()
         
     
     def draw(self, win):
@@ -65,7 +69,7 @@ class ArcherTowerLong(Tower):
             self.archer_count = 0
 
         archer = self.archer_imgs[self.archer_count//10 - 1]
-        win.blit(archer, ((self.x + self.width/2) - 35, (self.y - archer.get_height() + 35)))
+        win.blit(archer, ((self.x) - 35, (self.y - archer.get_height() + 35)))
         
 
         
@@ -125,3 +129,7 @@ class ArcherTowerShort(ArcherTowerLong):
         self.inRange = False
         self.right = False
         self.damage = 2
+        self.original_range = self.range
+        self.original_damage = self.damage
+        self.width = self.tower_imgs[0].get_width()
+        self.height = self.tower_imgs[0].get_height()
