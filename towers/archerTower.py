@@ -43,11 +43,7 @@ class ArcherTowerLong(Tower):
         
     
     def draw(self, win):
-        # draw range circle
-        surface = pygame.Surface((self.range * 4, self.range * 4), pygame.SRCALPHA, 32)
-        pygame.draw.circle(surface, (128,128,128, 100), (self.range, self.range), self.range, 0)
-        
-        win.blit(surface, (self.x-self.range, self.y-self.range))
+        super().draw_radius(win, self.range)
         super().draw(win)
         
         # self.width = self.tower_imgs[0].get_width()

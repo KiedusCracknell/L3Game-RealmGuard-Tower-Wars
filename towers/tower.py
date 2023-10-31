@@ -27,6 +27,12 @@ class Tower:
         """
         img = self.tower_imgs[0]
         win.blit(img, (self.x-img.get_width()//2, self.y-img.get_height()//2))
+        
+    def draw_radius(self,win,radius):
+        surface = pygame.Surface((radius * 4, radius * 4), pygame.SRCALPHA, 32)
+        pygame.draw.circle(surface, (128,128,128, 100), (radius, radius), radius, 0)
+        
+        win.blit(surface, (self.x-radius, self.y-radius))
     
     def click(self,X,Y):
         """

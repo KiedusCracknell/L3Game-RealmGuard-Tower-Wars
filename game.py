@@ -4,6 +4,7 @@ from enemies.slime import Slime
 from enemies.orc import Orc
 from enemies.bee import Bee
 from towers.archerTower import ArcherTowerLong, ArcherTowerShort
+from towers.supportTower import RangeTower, DamageTower
 import time
 import random
 
@@ -18,7 +19,8 @@ class Game:
         self.height = 700
         self.win = pygame.display.set_mode((self.width, self.height))
         self.enemys = []
-        self.towers = [ArcherTowerLong(300,200),ArcherTowerShort(700,500)]
+        self.attack_towers = [ArcherTowerLong(300,200), ArcherTowerShort(700,500)]
+        self.support_towers = [RangeTower(200, 210), DamageTower(800, 500)]
         self.lives = 10
         self.money = 100
         self.bg = pygame.image.load(os.path.join("game_assets/Map", "OLD-map.png"))
@@ -58,8 +60,8 @@ class Game:
                 self.lives -= 1 #removes a life when enemy makes it offscreen
                 self.enemys.remove(d) #removes enemies that are in to_del
             
-            # loop through towers to find targets etc.
-            for tw in self.towers:
+            # loop through attack towers to find targets etc.
+            for tw in self.attack_towers:
                 tw.attack(self.enemys)
                 
             if self.lives <= 0:
@@ -73,8 +75,12 @@ class Game:
     def draw(self):
         self.win.blit(self.bg, (0, 0)) # draws pygame window
         
-        # draw towers 
-        for tw in self.towers:
+        # draw  attack towers 
+        for tw in self.attack_towers:
+            tw.draw(self.win)
+            
+        #draw support towers
+        for tw in self.support_towers:
             tw.draw(self.win)
             
         #draw enemies    
