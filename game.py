@@ -10,7 +10,7 @@ import random
 
 pygame.font.init()
 
-live_img = pygame.image.load(os.path.join("game_assets/icons", "heart.png"))
+live_img = pygame.image.load(os.path.join("game_assets/gui", "heart.png"))
 
 
 class Game:
@@ -20,7 +20,7 @@ class Game:
         self.win = pygame.display.set_mode((self.width, self.height))
         self.enemys = []
         self.attack_towers = [ArcherTowerLong(300,200), ArcherTowerShort(700,500)]
-        self.support_towers = [RangeTower(300, 370), DamageTower(620, 500)]
+        self.support_towers = [RangeTower(260, 300), DamageTower(620, 500)]
         self.lives = 10
         self.money = 100
         self.bg = pygame.image.load(os.path.join("game_assets/Map", "OLD-map.png"))
