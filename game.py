@@ -38,10 +38,10 @@ class Game:
         self.life_font = pygame.font.SysFont(None, 45)
         self.selected_tower = None
         self.menu = VerticalMenu(self.width - side_img.get_width()+ 70, 220, side_img)
-        self.menu.add_btn(buy_archer_long, "Long Range Archer", 400)
-        self.menu.add_btn(buy_archer_short, "Short Range Archer", 600)
-        self.menu.add_btn(buy_support_range, "Support Range Tower", 300)
-        self.menu.add_btn(buy_support_damage, "Support Damage Tower", 600)
+        self.menu.add_btn(buy_archer_long, "Long Range", 400)
+        self.menu.add_btn(buy_archer_short, "Short Range", 600)
+        self.menu.add_btn(buy_support_range, "Support Range", 300)
+        self.menu.add_btn(buy_support_damage, "Support Damage", 600)
         
         
     def run(self):
