@@ -2,7 +2,7 @@ import pygame
 from menu.menu import Menu
 import os
 
-menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/gui/", "box_rounded.png")), (125, 70))
+menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/gui/", "box_square.png")), (125, 70))
 upgrade_btn = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/gui/", "upgrade.png")), (50, 50))
 
 class Tower:

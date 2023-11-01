@@ -85,4 +85,53 @@ class Menu:
             if btn.click(X,Y):
                 return btn.name
             return None
+        
+class VerticalButton(Button):
+    """
+    button class for vertical menu objects
+    """
+    def __init__(self, x, y, img, name, cost):
+        super().__init__(x, y, img, name)
+        self.cost = cost
+         
             
+class VerticalMenu(Menu):
+    """
+    vertical menu for sidebar of game
+    """
+    def __init__(self, x, y, img):
+        self.x = x
+        self.y = y
+        self.width = img.get_width()
+        self.height = img.get_height()
+        self.buttons = []
+        self.items = 0
+        self.bg = img
+        self.font = pygame.font.SysFont(None, 25)
+
+    def add_btn(self, img, name, cost):
+        """
+        adds button to the menu
+        :param img: surface
+        :param name: str
+        :return: None 
+        """
+        self.items += 1
+        btn_x = 1242
+        btn_y = self.y + 10 + (self.items-1)*80
+        self.buttons.append(VerticalButton(btn_x, btn_y, img, name, cost))
+        print(str(self.items))
+        
+    def draw(self,win):
+        """
+        draw btns and menu bg
+        :param win: surface
+        :return: None
+        """
+        win.blit(self.bg, (self.x - self.bg.get_width()/2, self.y -100))
+        for item in self.buttons:
+            item.draw(win)
+            win.blit(item.img, (item.x + item.width + 7, item.y - 7))
+            upg_text = self.font.render((str(item.cost)), 1, (255,255,255))
+            win.blit(upg_text, (item.x + item.width + 30 - upg_text.get_width()/2, item.y + diamond.get_height() - 7))        
+    

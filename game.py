@@ -5,6 +5,7 @@ from enemies.orc import Orc
 from enemies.bee import Bee
 from towers.archerTower import ArcherTowerLong, ArcherTowerShort
 from towers.supportTower import RangeTower, DamageTower
+from menu.menu import VerticalMenu
 import time
 import random
 
@@ -12,11 +13,17 @@ pygame.font.init()
 
 live_img = pygame.image.load(os.path.join("game_assets/gui", "heart.png"))
 diamond = pygame.image.load(os.path.join("game_assets/gui", "diamond.png"))
+side_img = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/gui", "box_square.png")),(120,500))
+
+buy_archer_long = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/towers", "long_range_tower.png")),(45,90))
+buy_archer_short = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/towers", "short_range_tower.png")),(45,90))
+buy_support_range = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/towers", "support_range_tower.png")),(45,90))
+buy_support_damage = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/towers", "support_damage_tower.png")),(45,90))
 
 
 class Game:
     def __init__(self):
-        self.width = 1200
+        self.width = 1350
         self.height = 700
         self.win = pygame.display.set_mode((self.width, self.height))
         self.enemys = []
@@ -30,6 +37,11 @@ class Game:
         self.timer = time.time()
         self.life_font = pygame.font.SysFont(None, 45)
         self.selected_tower = None
+        self.menu = VerticalMenu(self.width - side_img.get_width()+ 70, 220, side_img)
+        self.menu.add_btn(buy_archer_long, "Long Range Archer", 400)
+        self.menu.add_btn(buy_archer_short, "Short Range Archer", 600)
+        self.menu.add_btn(buy_support_range, "Support Range Tower", 300)
+        self.menu.add_btn(buy_support_damage, "Support Damage Tower", 600)
         
         
     def run(self):
@@ -116,6 +128,9 @@ class Game:
         #draw enemies    
         for en in self.enemys:
             en.draw(self.win)
+            
+        #draw menu
+        self.menu.draw(self.win)
         
         #draw lives
         text = self.life_font.render(str(self.lives), 1, (255,255,255))
