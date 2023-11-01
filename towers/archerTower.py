@@ -49,6 +49,7 @@ class ArcherTowerLong(Tower):
         #def menu
         self.menu = Menu(self, self.x, self.y, menu_bg)
         self.menu.add_btn(upgrade_btn, "Upgrade")
+        self.name = "archer"
         
     
     def draw(self, win):
@@ -65,7 +66,7 @@ class ArcherTowerLong(Tower):
         elif self.level == 3:
             self.archer_imgs = self.archer_3_img
         
-        if self.inRange:
+        if self.inRange and not self.moving:
             self.archer_count += 1
         else:
              self.archer_count = 0
@@ -145,3 +146,4 @@ class ArcherTowerShort(ArcherTowerLong):
         #def menu
         self.menu = Menu(self, self.x, self.y, menu_bg)
         self.menu.add_btn(upgrade_btn, "Upgrade")
+        self.name = "archer2"

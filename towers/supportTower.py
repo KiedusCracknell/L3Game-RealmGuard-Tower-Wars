@@ -23,7 +23,8 @@ class RangeTower(Tower):
         #def menu
         self.menu = Menu(self, self.x, self.y, menu_bg)
         self.menu.add_btn(upgrade_btn, "Upgrade")
-        
+        self.name = "support"
+       
     def draw(self,win):
         super().draw_radius(win,self.range,128,255,128)
         super().draw(win)
@@ -75,6 +76,8 @@ class DamageTower(RangeTower):
         #def menu
         self.menu = Menu(self, self.x, self.y, menu_bg)
         self.menu.add_btn(upgrade_btn, "Upgrade")
+        self.name = "support2"
+
     def support(self,towers):
         """
         buffs towers in radius with extra damage

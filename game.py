@@ -20,6 +20,9 @@ buy_archer_short = pygame.transform.scale(pygame.image.load(os.path.join("game_a
 buy_support_range = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/towers", "support_range_tower.png")),(45,90))
 buy_support_damage = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/towers", "support_damage_tower.png")),(45,90))
 
+attack_tower_names = ["archer", "archer2"]
+support_tower_names = ["support", "support2"]
+
 
 class Game:
     def __init__(self):
@@ -42,17 +45,26 @@ class Game:
         self.menu.add_btn(buy_archer_short, "Short Range", 600)
         self.menu.add_btn(buy_support_range, "Support Range", 300)
         self.menu.add_btn(buy_support_damage, "Support Damage", 600)
+        self.moving_object = None
         
         
     def run(self):
         run = True
         clock = pygame.time.Clock()
         while run:
+            clock.tick(200) #fps
+            
+            # gen monsters
             if time.time() - self.timer > random.randrange(1,5)/2:
                 self.timer = time.time()
                 self.enemys.append(random.choice([Slime(), Orc(), Bee()]))
-            #pygame.time.delay(500) REMOVE
-            clock.tick(200) #fps
+            
+            pos = pygame.mouse.get_pos()
+            # check for moving object
+            if self.moving_object is not None:
+                self.moving_object.move(pos[0], pos[1])
+            
+            # main event loop
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False #script stops if pygame window is closed
@@ -60,35 +72,46 @@ class Game:
                 pos = pygame.mouse.get_pos()
                 
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    side_menu_button = self.menu.get_clicked(pos[0], pos[1])
-                    if side_menu_button:
-                        print(side_menu_button)
-                    btn_clicked = None
-                    #check if click is on upgrade/sell buttons
-                    if self.selected_tower:
-                        btn_clicked = self.selected_tower.menu.get_clicked(pos[0],pos[1])
-                        if btn_clicked:
-                            if btn_clicked == "Upgrade":
-                                if self.money >= self.selected_tower.upg_price[self.selected_tower.level-1]:
-                                    self.money -= self.selected_tower.upg_price[self.selected_tower.level-1]
-                                    self.selected_tower.upgrade()
-                                
-                    #if not clicked on upgrade/sell buttons
-                    if not btn_clicked:
-                        #check if click is on attack tower
-                        for tw in self.attack_towers:
-                            if tw.click(pos[0],pos[1]):
-                                tw.selected = True
-                                self.selected_tower = tw
-                            else:
-                                tw.selected = False
-                        #check if click is on support tower
-                        for tw in self.support_towers:
-                            if tw.click(pos[0],pos[1]):
-                                tw.selected = True
-                                self.selected_tower = tw
-                            else:
-                                tw.selected = False
+                    #if you're moving an object and you click
+                    if self.moving_object is not None:
+                        if self.moving_object.name in attack_tower_names:
+                            self.attack_towers.append(self.moving_object)
+                        elif self.moving_object.name in support_tower_names:
+                            self.support_towers.append(self.moving_object)
+                        self.moving_object.moving = False
+                        self.moving_object = None
+                        
+                    else:
+                        #check if you click on side menu
+                        side_menu_button = self.menu.get_clicked(pos[0], pos[1])
+                        if side_menu_button:
+                            self.add_tower(side_menu_button)
+                        btn_clicked = None
+                        #check if click is on upgrade/sell buttons
+                        if self.selected_tower:
+                            btn_clicked = self.selected_tower.menu.get_clicked(pos[0],pos[1])
+                            if btn_clicked:
+                                if btn_clicked == "Upgrade":
+                                    if self.money >= self.selected_tower.upg_price[self.selected_tower.level-1]:
+                                        self.money -= self.selected_tower.upg_price[self.selected_tower.level-1]
+                                        self.selected_tower.upgrade()
+                                    
+                        #if not clicked on upgrade/sell buttons
+                        if not btn_clicked:
+                            #check if click is on attack tower
+                            for tw in self.attack_towers:
+                                if tw.click(pos[0],pos[1]):
+                                    tw.selected = True
+                                    self.selected_tower = tw
+                                else:
+                                    tw.selected = False
+                            #check if click is on support tower
+                            for tw in self.support_towers:
+                                if tw.click(pos[0],pos[1]):
+                                    tw.selected = True
+                                    self.selected_tower = tw
+                                else:
+                                    tw.selected = False
                 
             # loop through enemies
             to_del = []
@@ -114,6 +137,7 @@ class Game:
                 run = False
                 
             self.draw()
+            
         
         pygame.quit()
                     
@@ -131,6 +155,10 @@ class Game:
         #draw enemies    
         for en in self.enemys:
             en.draw(self.win)
+            
+        #draw moving object
+        if self.moving_object is not None:
+            self.moving_object.draw(self.win)
             
         #draw menu
         self.menu.draw(self.win)
@@ -152,9 +180,20 @@ class Game:
         self.win.blit(money, (start_x, 65))    
         
         pygame.display.update()
+    
+    def add_tower(self, name):
+        x,y = pygame.mouse.get_pos()
+        name_list = ["Long Range", "Short Range", "Support Range", "Support Damage"]
+        object_list = [ArcherTowerLong(x,y), ArcherTowerShort(x,y), RangeTower(x,y), DamageTower(x,y)]
         
-    def draw_menu(self):
-        pass
+        try:
+            obj = object_list[name_list.index(name)]
+            self.moving_object = obj
+            obj.moving = True
+        except Exception as e:
+            print(str(e) + "NOT VALID NAME")
+    
+    
         
 g = Game()
 g.run()

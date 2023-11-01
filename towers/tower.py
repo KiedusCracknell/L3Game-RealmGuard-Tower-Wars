@@ -22,12 +22,10 @@ class Tower:
         self.menu = Menu(self, self.x, self.y, menu_bg)
         self.menu.add_btn(upgrade_btn, "Upgrade")
         
-        
-        
-        
         self.tower_imgs = []
         self.damage = 1
         self.original_damage = 0
+        self.moving = False
         
     
     def draw(self, win):
