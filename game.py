@@ -20,14 +20,15 @@ class Game:
         self.win = pygame.display.set_mode((self.width, self.height))
         self.enemys = []
         self.attack_towers = [ArcherTowerLong(300,200), ArcherTowerShort(700,500)]
-        self.support_towers = [RangeTower(260, 300), DamageTower(620, 500)]
+        self.support_towers = [RangeTower(410, 330), DamageTower(620, 500)]
         self.lives = 10
         self.money = 100
         self.bg = pygame.image.load(os.path.join("game_assets/Map", "OLD-map.png"))
         self.bg = pygame.transform.scale(self.bg, (self.width, self.height))
-        self.clicks = []
+        #self.clicks = []
         self.timer = time.time()
         self.life_font = pygame.font.SysFont(None, 55)
+        self.selected_tower = None
         
         
     def run(self):
@@ -46,8 +47,28 @@ class Game:
                 pos = pygame.mouse.get_pos()
                 
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.clicks.append(pos)
-                    print(self.clicks)
+                    btn_clicked = None
+                    #check if click is on upgrade/sell buttons
+                    if self.selected_tower:
+                        btn_clicked = self.selected_tower.menu.get_clicked(pos[0],pos[1])
+                        if btn_clicked:
+                            print(btn_clicked)
+                    #if not clicked on upgrade/sell buttons
+                    if not btn_clicked:
+                        #check if click is on attack tower
+                        for tw in self.attack_towers:
+                            if tw.click(pos[0],pos[1]):
+                                tw.selected = True
+                                self.selected_tower = tw
+                            else:
+                                tw.selected = False
+                        #check if click is on support tower
+                        for tw in self.support_towers:
+                            if tw.click(pos[0],pos[1]):
+                                tw.selected = True
+                                self.selected_tower = tw
+                            else:
+                                tw.selected = False
                 
             # loop through enemies
             to_del = []
