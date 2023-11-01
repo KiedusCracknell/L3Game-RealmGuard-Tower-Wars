@@ -60,6 +60,9 @@ class Game:
                 pos = pygame.mouse.get_pos()
                 
                 if event.type == pygame.MOUSEBUTTONDOWN:
+                    side_menu_button = self.menu.get_clicked(pos[0], pos[1])
+                    if side_menu_button:
+                        print(side_menu_button)
                     btn_clicked = None
                     #check if click is on upgrade/sell buttons
                     if self.selected_tower:

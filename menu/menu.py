@@ -85,7 +85,7 @@ class Menu:
         for btn in self.buttons:
             if btn.click(X,Y):
                 return btn.name
-            return None
+        return None
         
 class VerticalButton(Button):
     """
