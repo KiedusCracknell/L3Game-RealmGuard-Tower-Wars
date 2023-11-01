@@ -11,6 +11,7 @@ import random
 pygame.font.init()
 
 live_img = pygame.image.load(os.path.join("game_assets/gui", "heart.png"))
+diamond = pygame.image.load(os.path.join("game_assets/gui", "diamond.png"))
 
 
 class Game:
@@ -22,12 +23,12 @@ class Game:
         self.attack_towers = [ArcherTowerLong(300,200), ArcherTowerShort(700,500)]
         self.support_towers = [RangeTower(410, 330), DamageTower(620, 500)]
         self.lives = 10
-        self.money = 100
+        self.money = 1000
         self.bg = pygame.image.load(os.path.join("game_assets/Map", "OLD-map.png"))
         self.bg = pygame.transform.scale(self.bg, (self.width, self.height))
         #self.clicks = []
         self.timer = time.time()
-        self.life_font = pygame.font.SysFont(None, 55)
+        self.life_font = pygame.font.SysFont(None, 45)
         self.selected_tower = None
         
         
@@ -53,7 +54,9 @@ class Game:
                         btn_clicked = self.selected_tower.menu.get_clicked(pos[0],pos[1])
                         if btn_clicked:
                             if btn_clicked == "Upgrade":
-                                self.selected_tower.upgrade()
+                                if self.money >= self.selected_tower.upg_price[self.selected_tower.level-1]:
+                                    self.money -= self.selected_tower.upg_price[self.selected_tower.level-1]
+                                    self.selected_tower.upgrade()
                                 
                     #if not clicked on upgrade/sell buttons
                     if not btn_clicked:
@@ -85,7 +88,7 @@ class Game:
             
             # loop through attack towers to find targets etc.
             for tw in self.attack_towers:
-                tw.attack(self.enemys)  
+                self.money += tw.attack(self.enemys)
                 
             # loop through support towers to find targets etc.
             for tw in self.support_towers:
@@ -116,12 +119,19 @@ class Game:
         
         #draw lives
         text = self.life_font.render(str(self.lives), 1, (255,255,255))
-        
         life = pygame.transform.scale(live_img, (45,45))
         start_x = self.width - life.get_width() - 10
         
         self.win.blit(text, (start_x - text.get_width() - 10, 15))
         self.win.blit(life, (start_x, 10))
+        
+        #draw money
+        text = self.life_font.render(str(self.money), 1, (255,255,255))
+        money = pygame.transform.scale(diamond, (45,45))
+        start_x = self.width - money.get_width() - 10
+        
+        self.win.blit(text, (start_x - text.get_width() - 10, 70))
+        self.win.blit(money, (start_x, 65))    
         
         pygame.display.update()
         

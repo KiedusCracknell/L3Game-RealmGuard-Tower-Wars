@@ -10,6 +10,8 @@ for x in range(6):
 class Orc(Enemy): 
     def __init__(self):
         super().__init__()
+        self.name = "orc"
+        self.money = 5
         self.imgs = imgs[:]
         self.max_health = 4
         self.health = self.max_health

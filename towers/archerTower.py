@@ -36,7 +36,7 @@ class ArcherTowerLong(Tower):
         self.archer_2_img = archer_2_img[:]
         self.archer_3_img = archer_3_img[:]
         self.archer_imgs = []
-        self.upg_price = [2000,5000,"MAX"]
+        self.upg_price = [1000,5000,"MAX"]
         self.archer_count = 0
         self.range = 250
         self.original_range = self.range
@@ -46,7 +46,7 @@ class ArcherTowerLong(Tower):
         self.original_damage = self.damage
         self.width = self.tower_imgs[0].get_width()
         self.height = self.tower_imgs[0].get_height()
-        
+        #def menu
         self.menu = Menu(self, self.x, self.y, menu_bg)
         self.menu.add_btn(upgrade_btn, "Upgrade")
         
@@ -92,6 +92,7 @@ class ArcherTowerLong(Tower):
         :param enemies: enemy list
         :return: None
         """
+        money = 0
         self.inRange = False
         enemy_closest = []
         for enemy in enemies:
@@ -109,6 +110,7 @@ class ArcherTowerLong(Tower):
             if self.archer_count == 3:
                 if first_enemy.hit(self.damage) == True:
                     enemies.remove(first_enemy)
+                    money = first_enemy.money
             
             if first_enemy.x > self.x and not(self.right):
                 self.right = True
@@ -118,6 +120,7 @@ class ArcherTowerLong(Tower):
                 self.right = False
                 for x, img in enumerate(self.archer_imgs):
                     self.archer_imgs[x] = pygame.transform.flip(img, True, False)
+        return money
             
         
 class ArcherTowerShort(ArcherTowerLong):
@@ -129,6 +132,7 @@ class ArcherTowerShort(ArcherTowerLong):
         self.archer_3_img = archer_3_img[:]
         self.tower_imgs = tower_imgs_2[:]
         self.archer_imgs = []
+        self.upg_price = [2000,6000,"MAX"]
         self.archer_count = 0
         self.range = 150
         self.inRange = False
@@ -138,3 +142,6 @@ class ArcherTowerShort(ArcherTowerLong):
         self.original_damage = self.damage
         self.width = self.tower_imgs[0].get_width()
         self.height = self.tower_imgs[0].get_height()
+        #def menu
+        self.menu = Menu(self, self.x, self.y, menu_bg)
+        self.menu.add_btn(upgrade_btn, "Upgrade")

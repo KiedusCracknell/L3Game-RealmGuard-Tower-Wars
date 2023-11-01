@@ -20,7 +20,7 @@ class RangeTower(Tower):
         self.width = self.tower_imgs[0].get_width()
         self.height = self.tower_imgs[0].get_height()
         
-        
+        #def menu
         self.menu = Menu(self, self.x, self.y, menu_bg)
         self.menu.add_btn(upgrade_btn, "Upgrade")
         
@@ -71,7 +71,10 @@ class DamageTower(RangeTower):
         super().__init__(x,y)
         self.tower_imgs = damage_img[:]
         self.effect = [1,2]
-        
+        self.upg_price = [15000,"MAX"]
+        #def menu
+        self.menu = Menu(self, self.x, self.y, menu_bg)
+        self.menu.add_btn(upgrade_btn, "Upgrade")
     def support(self,towers):
         """
         buffs towers in radius with extra damage

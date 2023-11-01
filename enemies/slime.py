@@ -10,6 +10,8 @@ for x in range(6):
 class Slime(Enemy): 
     def __init__(self):
         super().__init__()
+        self.name = "slime"
+        self.money = 1
         self.imgs = imgs[:]
         self.max_health = 2
         self.health = self.max_health

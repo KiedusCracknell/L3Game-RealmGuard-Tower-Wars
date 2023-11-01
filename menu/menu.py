@@ -3,7 +3,7 @@ import os
 
 pygame.font.init()
 
-diamond = pygame.transform.scale(pygame.image.load(os.path.join('game_assets/gui', 'Icon_Small_Diamond.png')),(48,48))
+diamond = pygame.transform.scale(pygame.image.load(os.path.join('game_assets/gui', 'diamond.png')),(48,48))
 
 class Button:
     """
