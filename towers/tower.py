@@ -3,23 +3,23 @@ from menu.menu import Menu
 import os
 
 menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/gui/", "box_rounded.png")), (125, 70))
-upgrade_btn = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/gui/", "star.png")), (50, 50))
+upgrade_btn = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/gui/", "upgrade.png")), (50, 50))
 
 class Tower:
     """
     Abstract class for Towers
     """
-    def __init__(self, x, y):
+    def __init__(self,x, y):
         self.x = x
         self.y = y
         self.width = 0
         self.height = 0
         self.sell_price = [0,0,0]
-        self.price = [0,0,0]
+        self.upg_price = [1232]
         self.level = 1
         self.selected = False
         # define menu and buttons
-        self.menu = Menu(self.x, self.y, menu_bg, [2000, 5000, 12000])
+        self.menu = Menu(self, self.x, self.y, menu_bg)
         self.menu.add_btn(upgrade_btn, "Upgrade")
         
         
@@ -27,7 +27,7 @@ class Tower:
         
         self.tower_imgs = []
         self.damage = 1
-        
+        self.original_damage = 0
         
     
     def draw(self, win):
@@ -75,8 +75,13 @@ class Tower:
         upgrades the selected tower for a given cost
         :return: None
         """
-        self.level += 1
-        self.damage += 1
+        if isinstance(self.menu.item_costs[self.level-1],(float,int)):
+            self.level += 1
+            self.damage += 1
+            self.original_damage += 1
+        else:
+            print("max level")
+            print("dmg:", self.damage, "level:", self.level, "range:", self.range)
     
     def get_upgrade_cost(self):
         """

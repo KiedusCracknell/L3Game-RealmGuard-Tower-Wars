@@ -1,8 +1,9 @@
 import pygame
-from towers.tower import Tower
+from towers.tower import Tower, menu_bg, upgrade_btn
 import os
 import math
 import time
+from menu.menu import Menu
 
 range_img = [pygame.transform.scale(pygame.image.load(os.path.join("game_assets/towers", "support_range_tower.png")),(90,180))]
 
@@ -14,9 +15,14 @@ class RangeTower(Tower):
         super().__init__(x,y)
         self.range = 75
         self.tower_imgs = range_img[:]
+        self.upg_price = [10000,"MAX"]
         self.effect = [0.2,0.4]
         self.width = self.tower_imgs[0].get_width()
         self.height = self.tower_imgs[0].get_height()
+        
+        
+        self.menu = Menu(self, self.x, self.y, menu_bg)
+        self.menu.add_btn(upgrade_btn, "Upgrade")
         
     def draw(self,win):
         super().draw_radius(win,self.range,128,255,128)

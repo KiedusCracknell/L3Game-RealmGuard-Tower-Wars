@@ -1,5 +1,6 @@
 import pygame
-from towers.tower import Tower
+from towers.tower import Tower, menu_bg, upgrade_btn
+from menu.menu import Menu
 import os
 import math
 import time
@@ -35,6 +36,7 @@ class ArcherTowerLong(Tower):
         self.archer_2_img = archer_2_img[:]
         self.archer_3_img = archer_3_img[:]
         self.archer_imgs = []
+        self.upg_price = [2000,5000,"MAX"]
         self.archer_count = 0
         self.range = 250
         self.original_range = self.range
@@ -44,6 +46,9 @@ class ArcherTowerLong(Tower):
         self.original_damage = self.damage
         self.width = self.tower_imgs[0].get_width()
         self.height = self.tower_imgs[0].get_height()
+        
+        self.menu = Menu(self, self.x, self.y, menu_bg)
+        self.menu.add_btn(upgrade_btn, "Upgrade")
         
     
     def draw(self, win):
