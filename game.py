@@ -23,6 +23,25 @@ buy_support_damage = pygame.transform.scale(pygame.image.load(os.path.join("game
 attack_tower_names = ["archer", "archer2"]
 support_tower_names = ["support", "support2"]
 
+# waves are in form:
+# (#slimes, #orcs, #bees)
+waves = [
+    [20,0,0],
+    [50,0,0],
+    [100,0,0],
+    [0,20,0],
+    [0,50,0],
+    [0,100,0],
+    [20,100,0],
+    [50,100,0],
+    [100,100,0],
+    [0,0,50],
+    [0,0,100],
+    [0,0,150],
+    [200,100,200],
+    [0,0,0],
+]
+
 
 
 class Game:
@@ -48,17 +67,38 @@ class Game:
         self.menu.add_btn(buy_support_damage, "Support Damage", 600)
         self.moving_object = None
         self.cost = 0
+        self.wave = 0
+        self.current_wave = waves[self.wave][:]
+        self.pause = False
         
+    def gen_enemies(self):
+        """
+        generate the next enemy or enemies to show
+        :return: enemy
+        """
+        if sum(self.current_wave) == 0:
+            self.wave += 1
+            self.current_wave = waves[self.wave]
+            self.pause = True
+        else:
+            for x in range(len(self.current_wave)):
+                wave_enemies = [Slime(), Orc(), Bee()]
+                if self.current_wave[x] != 0:
+                    self.enemys.append(wave_enemies[x])
+                    self.current_wave[x] = self.current_wave[x] - 1
+                    break
+            
     def run(self):
         run = True
         clock = pygame.time.Clock()
         while run:
-            clock.tick(200) #fps
-            
-            # gen monsters
-            if time.time() - self.timer > random.randrange(1,5)/2:
-                self.timer = time.time()
-                self.enemys.append(random.choice([Slime(), Orc(), Bee()]))
+            clock.tick(90) #fps
+            if self.pause == False:   
+                
+                # gen monsters
+                if time.time() - self.timer > random.randrange(1,5)/2:
+                    self.timer = time.time()
+                    self.gen_enemies()
             
             pos = pygame.mouse.get_pos()
             # check for moving object
