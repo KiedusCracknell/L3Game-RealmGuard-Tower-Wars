@@ -24,6 +24,7 @@ attack_tower_names = ["archer", "archer2"]
 support_tower_names = ["support", "support2"]
 
 
+
 class Game:
     def __init__(self):
         self.width = 1350
@@ -46,7 +47,7 @@ class Game:
         self.menu.add_btn(buy_support_range, "Support Range", 300)
         self.menu.add_btn(buy_support_damage, "Support Damage", 600)
         self.moving_object = None
-        
+        self.cost = 0
         
     def run(self):
         run = True
@@ -80,8 +81,12 @@ class Game:
                     if self.moving_object is not None:
                         if self.moving_object.name in attack_tower_names:
                             self.attack_towers.append(self.moving_object)
+                            self.money -= self.cost
+                            self.cost = 0
                         elif self.moving_object.name in support_tower_names:
                             self.support_towers.append(self.moving_object)
+                            self.money -= self.cost
+                            self.cost = 0
                         self.moving_object.moving = False
                         self.moving_object = None
                         
@@ -89,7 +94,9 @@ class Game:
                         #check if you click on side menu
                         side_menu_button = self.menu.get_clicked(pos[0], pos[1])
                         if side_menu_button:
-                            self.add_tower(side_menu_button)
+                            self.cost = self.menu.get_item_cost(side_menu_button)
+                            if self.cost <= self.money:
+                                self.add_tower(side_menu_button)
                         btn_clicked = None
                         #check if click is on upgrade/sell buttons
                         if self.selected_tower:

@@ -125,6 +125,17 @@ class VerticalMenu(Menu):
         self.buttons.append(VerticalButton(btn_x, btn_y, img, name, cost))
         print(str(self.items))
         
+    def get_item_cost(self, name):
+        """
+        get cost of item
+        :param name: str
+        :return: int
+        """
+        for btn in self.buttons:
+            if btn.name == name:
+                return btn.cost
+        return 0
+        
     def draw(self,win):
         """
         draw btns and menu bg
