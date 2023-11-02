@@ -23,6 +23,7 @@ buy_support_damage = pygame.transform.scale(pygame.image.load(os.path.join("game
 play_btn = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/gui/", "play.png")), (50, 50))
 pause_btn = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/gui/", "pause.png")), (50, 50))
 
+wave_bg = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/gui", "box_square.png")),(70,25))
 
 attack_tower_names = ["archer", "archer2"]
 support_tower_names = ["support", "support2"]
@@ -75,6 +76,8 @@ class Game:
         self.current_wave = waves[self.wave][:]
         self.pause = True
         self.playPauseButton = PlayPauseButton(play_btn, pause_btn, 10, self.height - 85)
+        self.wave_font = pygame.font.SysFont(None, 20)
+        
         
     def gen_enemies(self):
         """
@@ -82,9 +85,11 @@ class Game:
         :return: enemy
         """
         if sum(self.current_wave) == 0:
-            self.wave += 1
-            self.current_wave = waves[self.wave]
-            self.pause = True
+            if len(self.enemys) == 0:
+                self.wave += 1
+                self.current_wave = waves[self.wave]
+                self.pause = True
+                self.playPauseButton.change_img()
         else:
             for x in range(len(self.current_wave)):
                 wave_enemies = [Slime(), Orc(), Bee()]
@@ -173,7 +178,7 @@ class Game:
                                     self.selected_tower = tw
                                 else:
                                     tw.selected = False
-            if not self.pause: 
+            if not self.pause:                        
                 # loop through enemies
                 to_del = []
                 for en in self.enemys:
@@ -197,7 +202,7 @@ class Game:
                 if self.lives <= 0:
                     print("you lose")
                     run = False
-                    
+                
             self.draw()
             
         
@@ -242,7 +247,12 @@ class Game:
         start_x = self.width - money.get_width() - 10
         
         self.win.blit(text, (start_x - text.get_width() - 10, 70))
-        self.win.blit(money, (start_x, 65))    
+        self.win.blit(money, (start_x, 65))  
+        
+        # draw wave counter  
+        self.win.blit(wave_bg, (0 ,self.height - wave_bg.get_height() - 10))
+        text = self.wave_font.render("Wave #" + str(self.wave + 1), 1, (255,255,255))
+        self.win.blit(text, ( wave_bg.get_width()/2 - text.get_width()/2, self.height - wave_bg.get_height() - 5))
         
         pygame.display.update()
     

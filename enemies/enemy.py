@@ -29,10 +29,6 @@ class Enemy:
         :return: none
         """
         self.img = self.imgs[(self.animation_count)//10]
-        self.animation_count += 1
-        
-        if ((self.animation_count)//10) >= len(self.imgs):
-            self.animation_count = 0
             
         win.blit(self.img, (self.x-self.img.get_width()/2, self.y-self.img.get_height()/2))
         #pygame.draw.rect, (win, (255,0,0), (self.x, self.y, 48, 48))
@@ -69,6 +65,9 @@ class Enemy:
         moves enemy position to next path position
         :return: None
         """
+        self.animation_count += 1
+        if ((self.animation_count)//10) >= len(self.imgs):
+            self.animation_count = 0
         x1, y1 = self.path[self.path_pos]
         if self.path_pos + 1 >= len(self.path):
             x2, y2 = (-10, 710)

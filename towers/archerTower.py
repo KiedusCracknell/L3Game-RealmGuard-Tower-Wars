@@ -66,13 +66,6 @@ class ArcherTowerLong(Tower):
         elif self.level == 3:
             self.archer_imgs = self.archer_3_img
         
-        if self.inRange and not self.moving:
-            self.archer_count += 1
-        else:
-             self.archer_count = 0
-
-        if self.archer_count >= len(self.archer_imgs)*10:
-            self.archer_count = 0
 
         archer = self.archer_imgs[self.archer_count//10 - 1]
         win.blit(archer, ((self.x) - 35, (self.y - archer.get_height() + 35)))
@@ -93,6 +86,14 @@ class ArcherTowerLong(Tower):
         :param enemies: enemy list
         :return: None
         """
+        if self.inRange and not self.moving:
+            self.archer_count += 1
+        else:
+             self.archer_count = 0
+
+        if self.archer_count >= len(self.archer_imgs)*10:
+            self.archer_count = 0
+            
         money = 0
         self.inRange = False
         enemy_closest = []
