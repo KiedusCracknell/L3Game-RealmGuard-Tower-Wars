@@ -55,13 +55,12 @@ class Game:
         self.height = 700
         self.win = pygame.display.set_mode((self.width, self.height))
         self.enemys = []
-        self.attack_towers = [ArcherTowerLong(300,200), ArcherTowerShort(700,500)]
-        self.support_towers = [RangeTower(410, 330), DamageTower(620, 500)]
+        self.attack_towers = []
+        self.support_towers = []
         self.lives = 10
         self.money = 1000
         self.bg = pygame.image.load(os.path.join("game_assets/Map", "OLD-map.png"))
         self.bg = pygame.transform.scale(self.bg, (self.width, self.height))
-        #self.clicks = []
         self.timer = time.time()
         self.life_font = pygame.font.SysFont(None, 45)
         self.selected_tower = None
@@ -77,6 +76,7 @@ class Game:
         self.pause = True
         self.playPauseButton = PlayPauseButton(play_btn, pause_btn, 10, self.height - 85)
         self.wave_font = pygame.font.SysFont(None, 20)
+        self.path = []
         
         
     def gen_enemies(self):
@@ -86,10 +86,15 @@ class Game:
         """
         if sum(self.current_wave) == 0:
             if len(self.enemys) == 0:
+                if self.wave <= 6:
+                    self.money += (self.wave+1) * 100
+                else:
+                    self.money += 700
                 self.wave += 1
                 self.current_wave = waves[self.wave]
                 self.pause = True
                 self.playPauseButton.change_img()
+                
         else:
             for x in range(len(self.current_wave)):
                 wave_enemies = [Slime(), Orc(), Bee()]
@@ -102,7 +107,7 @@ class Game:
         run = True
         clock = pygame.time.Clock()
         while run:
-            clock.tick(90) #fps
+            clock.tick(120) #fps
             if self.pause == False:   
                 
                 # gen monsters
@@ -122,11 +127,16 @@ class Game:
                     
                 pos = pygame.mouse.get_pos()
                 
-                if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.type == pygame.MOUSEBUTTONUP:
+                    if event.button == 1:
+                        self.path.append(pos)
+                    if event.button == 3:
+                        print(self.path)
                     #if you're moving an object and you click
                     if self.moving_object and event.button == 3:
                         self.moving_object.moving = False
                         self.moving_object = None
+                        
                                                
                     if self.moving_object is not None:
                         if self.moving_object.name in attack_tower_names:
@@ -147,11 +157,6 @@ class Game:
                             self.playPauseButton.change_img()
                         
                         #check if you click on side menu
-                        side_menu_button = self.menu.get_clicked(pos[0], pos[1])
-                        if side_menu_button:
-                            self.cost = self.menu.get_item_cost(side_menu_button)
-                            if self.cost <= self.money:
-                                self.add_tower(side_menu_button)
                         btn_clicked = None
                         #check if click is on upgrade/sell buttons
                         if self.selected_tower:

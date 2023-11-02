@@ -11,7 +11,7 @@ class Enemy:
         self.animation_count = 0
         self.health = 1
         self.vel = 3
-        self.path = [(108, -10), (108, 1), (108, 173), (455, 173), (712, 173), (1062, 173), (1062, 365), (966, 365), (936, 397), (866, 459), (748, 463), (530, 461), (530, 558), (530, 696), (530, 800)]
+        self.path = [(126, -10), (126, 169), (1193, 169), (1193, 366), (1089, 366), (980, 457), (593, 457), (593, 800)]
         self.x = self.path[0][0]
         self.y = self.path[0][1]
         self.img = None
@@ -69,10 +69,9 @@ class Enemy:
         if ((self.animation_count)//10) >= len(self.imgs):
             self.animation_count = 0
         x1, y1 = self.path[self.path_pos]
-        if self.path_pos + 1 >= len(self.path):
-            x2, y2 = (-10, 710)
-        else:
-            x2,y2 = self.path[self.path_pos+1]
+
+
+        x2,y2 = self.path[self.path_pos+1]
             
         dirn = ((x2 - x1)*2, (y2 - y1)*2)
         length = math.sqrt((dirn[0])**2 + (dirn[1])**2)
