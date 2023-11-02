@@ -5,7 +5,7 @@ a = Analysis(
     ['game.py'],
     pathex=[],
     binaries=[],
-    datas=[('game_assets', 'game_assets'), ('enemies', 'enemies'), ('menu', 'menu'), ('towers', 'towers')],
+    datas=[('game_assets/1', 'game_assets/1'), ('game_assets/2', 'game_assets/2'), ('game_assets/3', 'game_assets/3'), ('game_assets/gui', 'game_assets/gui'), ('game_assets/Map', 'game_assets/Map'), ('game_assets/Towers', 'game_assets/Towers'), ('game_assets', 'game_assets'), ('enemies', 'enemies'), ('menu', 'menu'), ('towers', 'towers')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
