@@ -139,16 +139,22 @@ class Game:
                         
                                                
                     if self.moving_object is not None:
-                        if self.moving_object.name in attack_tower_names:
-                            self.attack_towers.append(self.moving_object)
-                            self.money -= self.cost
-                            self.cost = 0
-                        elif self.moving_object.name in support_tower_names:
-                            self.support_towers.append(self.moving_object)
-                            self.money -= self.cost
-                            self.cost = 0
-                        self.moving_object.moving = False
-                        self.moving_object = None
+                        valid_placement = True
+                        tower_list = self.attack_towers[:] + self.support_towers[:]
+                        for tower in tower_list:
+                            if tower.collide(self.moving_object):
+                                valid_placement = False
+                        if valid_placement:
+                            if self.moving_object.name in attack_tower_names:
+                                self.attack_towers.append(self.moving_object)
+                                self.money -= self.cost
+                                self.cost = 0
+                            elif self.moving_object.name in support_tower_names:
+                                self.support_towers.append(self.moving_object)
+                                self.money -= self.cost
+                                self.cost = 0
+                            self.moving_object.moving = False
+                            self.moving_object = None
                         
                     else:
                         #check for play or pause
@@ -157,6 +163,11 @@ class Game:
                             self.playPauseButton.change_img()
                         
                         #check if you click on side menu
+                        side_menu_button = self.menu.get_clicked(pos[0], pos[1])
+                        if side_menu_button:
+                            self.cost = self.menu.get_item_cost(side_menu_button)
+                            if self.cost <= self.money:
+                                self.add_tower(side_menu_button)
                         btn_clicked = None
                         #check if click is on upgrade/sell buttons
                         if self.selected_tower:
@@ -214,11 +225,20 @@ class Game:
         pygame.quit()
                     
     def draw(self):
-        self.win.blit(self.bg, (0, 0)) # draws pygame window
-        
+        self.win.blit(self.bg, (0, 0)) # draws pygame window        
         # draw  attack towers 
         for tw in self.attack_towers:
             tw.draw(self.win)
+            
+            
+        #draw moving object
+        if self.moving_object is not None:
+            self.moving_object.draw(self.win)
+            for tw in self.attack_towers:
+                tw.draw_placement(self.win)
+            for tw in self.support_towers:
+                tw.draw_placement(self.win)
+            self.moving_object.draw_placement(self.win)
             
         #draw support towers
         for tw in self.support_towers:
@@ -227,11 +247,6 @@ class Game:
         #draw enemies   
         for en in self.enemys:
             en.draw(self.win)
-            
-        #draw moving object
-        if self.moving_object is not None:
-            self.moving_object.draw(self.win)
-            
         #draw menu
         self.menu.draw(self.win)
         

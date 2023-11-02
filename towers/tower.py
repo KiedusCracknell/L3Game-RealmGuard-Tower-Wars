@@ -1,6 +1,7 @@
 import pygame
 from menu.menu import Menu
 import os
+import math
 
 menu_bg = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/gui/", "box_square.png")), (125, 70))
 upgrade_btn = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/gui/", "upgrade.png")), (50, 50))
@@ -48,6 +49,12 @@ class Tower:
             pygame.draw.circle(surface, (r,g,b, 100), (radius, radius), radius, 0)
             
             win.blit(surface, (self.x-radius, self.y-radius))
+            
+    def draw_placement(self,win):
+        surface = pygame.Surface((40 * 4, 40 * 4), pygame.SRCALPHA, 32)
+        pygame.draw.circle(surface, (255,0,0, 100), (40, 40), 40, 0)
+        
+        win.blit(surface, (self.x-40, self.y-40))
     
     def click(self,X,Y):
         """
@@ -98,4 +105,14 @@ class Tower:
         """
         self.x = x
         self.y = y 
-    
+        
+    def collide(self, otherTower):
+        x2 = otherTower.x 
+        y2 = otherTower.y + 45
+        
+        dis = math.sqrt((x2-self.x)**2 + (y2-self.y)**2)
+        
+        if dis <= 80:
+            return True
+        else:
+            return False
