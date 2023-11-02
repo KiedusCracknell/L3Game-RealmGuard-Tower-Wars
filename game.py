@@ -124,10 +124,10 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False #script stops if pygame window is closed
-                    
-                pos = pygame.mouse.get_pos()
                 
                 if event.type == pygame.MOUSEBUTTONUP:
+                    pos = pygame.mouse.get_pos()
+                    
                     if event.button == 1:
                         self.path.append(pos)
                     if event.button == 3:
@@ -141,9 +141,12 @@ class Game:
                     if self.moving_object is not None:
                         valid_placement = True
                         tower_list = self.attack_towers[:] + self.support_towers[:]
+                        if self.moving_object.collide_path(self.moving_object):
+                            valid_placement = False
                         for tower in tower_list:
                             if tower.collide(self.moving_object):
                                 valid_placement = False
+
                         if valid_placement:
                             if self.moving_object.name in attack_tower_names:
                                 self.attack_towers.append(self.moving_object)
@@ -230,7 +233,8 @@ class Game:
         for tw in self.attack_towers:
             tw.draw(self.win)
             
-            
+        for pos in self.path:
+            pygame.draw.circle(self.win,(255,0,0), pos, 5, 1)
         #draw moving object
         if self.moving_object is not None:
             self.moving_object.draw(self.win)

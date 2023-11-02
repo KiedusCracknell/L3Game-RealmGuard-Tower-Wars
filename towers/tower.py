@@ -112,7 +112,26 @@ class Tower:
         
         dis = math.sqrt((x2-self.x)**2 + (y2-self.y)**2)
         
-        if dis <= 80:
+        if dis <= 82:
+            return True
+        else:
+            return False
+        
+    def collide_path(self, otherTower):
+        x = otherTower.x
+        y = otherTower.y
+        h = otherTower.height//2
+        if x >= 73 and x <= 177 and y >= 0 - h and y <= 220:
+            return True
+        if x >= 73 and x <= 1240 and y >= 130 - h and y <= 220:
+            return True
+        if x >= 1139 and x <= 1269 and y >= 130 - h and y <= 412:
+            return True
+        if x >= 961 and x <= 1138 and y >= 324  - h and y <= 505:
+            return True
+        if x >= 536 and x <= 960 and y >= 415 - h and y <= 507:
+            return True
+        if x >= 535 and x <= 634 and y >= 418 - h and y <= 700:
             return True
         else:
             return False
