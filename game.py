@@ -75,9 +75,7 @@ class Game:
         self.current_wave = waves[self.wave][:]
         self.pause = True
         self.playPauseButton = PlayPauseButton(play_btn, pause_btn, 10, self.height - 85)
-        self.wave_font = pygame.font.SysFont(None, 20)
-        self.path = []
-        
+        self.wave_font = pygame.font.SysFont(None, 20)        
         
     def gen_enemies(self):
         """
@@ -128,10 +126,6 @@ class Game:
                 if event.type == pygame.MOUSEBUTTONUP:
                     pos = pygame.mouse.get_pos()
                     
-                    if event.button == 1:
-                        self.path.append(pos)
-                    if event.button == 3:
-                        print(self.path)
                     #if you're moving an object and you click
                     if self.moving_object and event.button == 3:
                         self.moving_object.moving = False
@@ -233,8 +227,6 @@ class Game:
         for tw in self.attack_towers:
             tw.draw(self.win)
             
-        for pos in self.path:
-            pygame.draw.circle(self.win,(255,0,0), pos, 5, 1)
         #draw moving object
         if self.moving_object is not None:
             self.moving_object.draw(self.win)
