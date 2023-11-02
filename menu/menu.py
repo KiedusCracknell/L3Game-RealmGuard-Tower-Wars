@@ -87,6 +87,24 @@ class Menu:
                 return btn.name
         return None
         
+        
+class PlayPauseButton(Button):
+    def __init__(self, play_img, pause_img, x, y):
+        self.img = play_img
+        self.play = play_img
+        self.pause = pause_img
+        self.x = x
+        self.y = y
+        self.width = self.img.get_width()
+        self.height = self.img.get_height()
+    
+    def change_img(self):
+        if self.img == self.play:
+            self.img = self.pause
+        else:
+            self.img = self.play
+
+    
 class VerticalButton(Button):
     """
     button class for vertical menu objects

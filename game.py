@@ -5,7 +5,7 @@ from enemies.orc import Orc
 from enemies.bee import Bee
 from towers.archerTower import ArcherTowerLong, ArcherTowerShort
 from towers.supportTower import RangeTower, DamageTower
-from menu.menu import VerticalMenu
+from menu.menu import VerticalMenu, PlayPauseButton
 import time
 import random
 
@@ -19,6 +19,10 @@ buy_archer_long = pygame.transform.scale(pygame.image.load(os.path.join("game_as
 buy_archer_short = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/towers", "short_range_tower.png")),(45,90))
 buy_support_range = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/towers", "support_range_tower.png")),(45,90))
 buy_support_damage = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/towers", "support_damage_tower.png")),(45,90))
+
+play_btn = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/gui/", "play.png")), (50, 50))
+pause_btn = pygame.transform.scale(pygame.image.load(os.path.join("game_assets/gui/", "pause.png")), (50, 50))
+
 
 attack_tower_names = ["archer", "archer2"]
 support_tower_names = ["support", "support2"]
@@ -69,7 +73,8 @@ class Game:
         self.cost = 0
         self.wave = 0
         self.current_wave = waves[self.wave][:]
-        self.pause = False
+        self.pause = True
+        self.playPauseButton = PlayPauseButton(play_btn, pause_btn, 10, self.height - 85)
         
     def gen_enemies(self):
         """
@@ -131,6 +136,11 @@ class Game:
                         self.moving_object = None
                         
                     else:
+                        #check for play or pause
+                        if self.playPauseButton.click(pos[0],pos[1]):
+                            self.pause = not(self.pause)
+                            self.playPauseButton.change_img()
+                        
                         #check if you click on side menu
                         side_menu_button = self.menu.get_clicked(pos[0], pos[1])
                         if side_menu_button:
@@ -163,30 +173,31 @@ class Game:
                                     self.selected_tower = tw
                                 else:
                                     tw.selected = False
+            if not self.pause: 
+                # loop through enemies
+                to_del = []
+                for en in self.enemys:
+                    en.move()
+                    if en.y > 720:
+                        to_del.append(en)
+                        
+                # deltete enemies
+                for d in to_del:
+                    self.lives -= 1 #removes a life when enemy makes it offscreen
+                    self.enemys.remove(d) #removes enemies that are in to_del
                 
-            # loop through enemies
-            to_del = []
-            for en in self.enemys:
-                if en.y > 720:
-                    to_del.append(en)
+                # loop through attack towers to find targets etc.
+                for tw in self.attack_towers:
+                    self.money += tw.attack(self.enemys)
                     
-            # deltete enemies
-            for d in to_del:
-                self.lives -= 1 #removes a life when enemy makes it offscreen
-                self.enemys.remove(d) #removes enemies that are in to_del
-            
-            # loop through attack towers to find targets etc.
-            for tw in self.attack_towers:
-                self.money += tw.attack(self.enemys)
-                
-            # loop through support towers to find targets etc.
-            for tw in self.support_towers:
-                tw.support(self.attack_towers)
-                
-            if self.lives <= 0:
-                print("you lose")
-                run = False
-                
+                # loop through support towers to find targets etc.
+                for tw in self.support_towers:
+                    tw.support(self.attack_towers)
+                    
+                if self.lives <= 0:
+                    print("you lose")
+                    run = False
+                    
             self.draw()
             
         
@@ -203,7 +214,7 @@ class Game:
         for tw in self.support_towers:
             tw.draw(self.win)
             
-        #draw enemies    
+        #draw enemies   
         for en in self.enemys:
             en.draw(self.win)
             
@@ -213,6 +224,9 @@ class Game:
             
         #draw menu
         self.menu.draw(self.win)
+        
+        #draw play pause button
+        self.playPauseButton.draw(self.win)
         
         #draw lives
         text = self.life_font.render(str(self.lives), 1, (255,255,255))
