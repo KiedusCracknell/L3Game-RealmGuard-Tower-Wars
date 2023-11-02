@@ -73,6 +73,10 @@ class Game:
                 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     #if you're moving an object and you click
+                    if self.moving_object and event.button == 3:
+                        self.moving_object.moving = False
+                        self.moving_object = None
+                                               
                     if self.moving_object is not None:
                         if self.moving_object.name in attack_tower_names:
                             self.attack_towers.append(self.moving_object)

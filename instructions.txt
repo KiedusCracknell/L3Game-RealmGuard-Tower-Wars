@@ -1,0 +1,3 @@
+To run this game currently python and pygame needs to be installed on the PC. Python installations usually come with 
+the PIP package installed, so to install pygame you run a command in the cmd prompt that should be:
+"py -m pip install pygame" then PIP will install the pygame package and the game can be run through run.bat :)

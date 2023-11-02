@@ -18,9 +18,7 @@ class Tower:
         self.upg_price = [1232]
         self.level = 1
         self.selected = False
-        # define menu and buttons
-        self.menu = Menu(self, self.x, self.y, menu_bg)
-        self.menu.add_btn(upgrade_btn, "Upgrade")
+
         
         self.tower_imgs = []
         self.damage = 1
@@ -39,6 +37,9 @@ class Tower:
         
         #draw menu
         if self.selected:
+        # define menu and buttons
+            self.menu = Menu(self, self.x, self.y, menu_bg)
+            self.menu.add_btn(upgrade_btn, "Upgrade")
             self.menu.draw(win)
         
     def draw_radius(self,win,radius,r,g,b):
