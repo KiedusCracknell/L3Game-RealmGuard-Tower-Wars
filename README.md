@@ -11,10 +11,13 @@
 - Support
   - Range support!
   - Damage support!
-##relevent implications
+## relevent implications
 - ethical
-  I adressed both the legal and ethical relevent implications by crediting resources I used to make my game, such as the assets I used in the game. 
-  Crediting the creators of assets is ethical because it shows respect to the original cretor of the resources, it provides transparancy to users 
+  
+  I adressed both the legal and ethical relevent implications by crediting resources I used to make my game, such as the assets I used in the game.
+  
+  Crediting the creators of assets is ethical because it shows respect to the original cretor of the resources, it provides transparancy to users
+  
   of my game allowing them to explore the work of the asset creators if they wish, and crediting the creator is just a social norm.
     
 ## For Level 3 Programming Assesment
